@@ -104,14 +104,15 @@ class Feature
      */
     protected $sequence;
     
-    function __construct() {
+    
+    
+    public function __construct() {
         $this->parents = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->aliases = new ArrayCollection();
         $this->locations = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
-
     
     /**
      * Get id
@@ -132,74 +133,209 @@ class Feature
       return $this->version;
     }
     
+    /**
+     * Get name
+     * 
+     * @return string 
+     */
     public function getName() {
         return $this->name;
     }
 
+    /**
+     * Set name
+     * 
+     * @param string $name 
+     */
     public function setName($name) {
         $this->name = $name;
     }
-
+    
+    /**
+     * Get type
+     * 
+     * @return string 
+     */
     public function getType() {
         return $this->type;
     }
 
+    /**
+     * Set type
+     * 
+     * @param string $type 
+     */
     public function setType($type) {
         $this->type = $type;
     }
-
+    
+    /**
+     * Get parents
+     * 
+     * @return Collection  
+     */
     public function getParents() {
         return $this->parents;
     }
-
-    public function setParents($parents) {
-        $this->parents = $parents;
+    
+    /**
+     * Add parent
+     * 
+     * @param Feature $parent 
+     */
+    public function addParent($parent) {
+        $this->parents[] = $parent;
     }
-
+        
+    /**
+     * Remove parent
+     * 
+     * @param Feature $parent 
+     */
+    public function removeParent($parent) {
+        $this->parents->removeElement($parent);
+    }
+    
+    /**
+     * Get children
+     * 
+     * @return Collection 
+     */
     public function getChildren() {
         return $this->children;
     }
-
-    public function setChildren($children) {
-        $this->children = $children;
+    
+    /**
+     * Add child
+     * 
+     * @param Feature $child 
+     */
+    public function addChild($child) {
+        $this->children[] = $child;
+    }
+        
+    /**
+     * Remove child
+     * 
+     * @param Feature $child 
+     */
+    public function removeChild($child) {
+        $this->parents->removeElement($child);
     }
 
+    /**
+     * Get origin
+     * 
+     * @return Feature 
+     */
     public function getOrigin() {
         return $this->origin;
     }
-
+    
+    /**
+     * Set origin
+     * 
+     * @param Feature $origin 
+     */
     public function setOrigin($origin) {
         $this->origin = $origin;
     }
 
+    /**
+     * Get aliases
+     * 
+     * @return Collection 
+     */
     public function getAliases() {
         return $this->aliases;
     }
 
-    public function setAliases($aliases) {
-        $this->aliases = $aliases;
+    /**
+     * Add alias
+     * 
+     * @param FeatureAlias $alias 
+     */
+    public function addAlias($alias) {
+        $this->aliases[] = $alias;
+    }
+        
+    /**
+     * Remove alias
+     * 
+     * @param FeatureAlias $alias 
+     */
+    public function removeAlias($alias) {
+        $this->aliases->removeElement($alias);
     }
 
+    /**
+     * Get locations
+     * 
+     * @return Collection 
+     */
     public function getLocations() {
         return $this->locations;
     }
 
-    public function setLocations($locations) {
-        $this->locations = $locations;
+    /**
+     * Add location
+     * 
+     * @param Location $location 
+     */
+    public function addLocation($location) {
+        $this->locations[] = $location;
     }
-
+        
+    /**
+     * Remove location
+     * 
+     * @param Location $location 
+     */
+    public function removeLocation($location) {
+        $this->locations->removeElement($location);
+    }
+    
+    /**
+     * Get tags
+     * 
+     * @return Collection 
+     */
     public function getTags() {
         return $this->tags;
     }
 
-    public function setTags($tags) {
-        $this->tags = $tags;
+    /**
+     * Add tag
+     * 
+     * @param FeatureTag $tag 
+     */
+    public function addTag($tag) {
+        $this->tags[] = $tag;
+    }
+        
+    /**
+     * Remove tag
+     * 
+     * @param FeatureTag $tag 
+     */
+    public function removeTag($tag) {
+        $this->tags->removeElement($tag);
     }
 
+    /**
+     * Get sequence
+     * 
+     * @return Sequence 
+     */
     public function getSequence() {
         return $this->sequence;
     }
 
+    /**
+     * Set sequence
+     * 
+     * @param Sequence $sequence 
+     */
     public function setSequence($sequence) {
         $this->sequence = $sequence;
     }
