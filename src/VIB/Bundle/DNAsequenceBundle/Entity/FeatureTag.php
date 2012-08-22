@@ -65,4 +65,77 @@ class FeatureTag
     {
         return $this->id;
     }
+    
+   /**
+     * Get version
+     *
+     * @return integer 
+     */
+   public function getVersion() {
+        return $this->version;
+    }
+    
+    /**
+     * Get field
+     *
+     * @return string 
+     */
+    public function getField() {
+        return $this->field;
+    }
+    
+    /**
+     * Set field
+     * 
+     * @param string $field
+     */
+    public function setField($field) {
+        $this->field = $field;
+    }
+    
+    /**
+     * Get value
+     *
+     * @return string 
+     */
+    public function getValue() {
+        return $this->value;
+    }
+    
+    /**
+     * Set value
+     * 
+     * @param string $value
+     */
+    public function setValue($value) {
+        $this->value = $value;
+    }
+    
+    /**
+     * Get feature
+     *
+     * @return Feature 
+     */
+    public function getFeature() {
+        return $this->feature;
+    }
+
+    /**
+     * Set feature
+     * 
+     * @param Feature $feature 
+     * @param boolean $recurse 
+     */
+    public function setFeature($feature,$recurse = true) {
+        if ($recurse === true) {
+            if ($feature != null) {
+                $feature->addTag($this,false);
+            } elseif ($this->feature != null) {
+                $this->feature->removeTag($this,false);
+            }
+        }
+        $this->feature = $feature;
+    }
+
+
 }

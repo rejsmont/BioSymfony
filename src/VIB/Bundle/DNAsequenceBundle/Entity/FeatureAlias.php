@@ -56,4 +56,57 @@ class FeatureAlias
     {
         return $this->id;
     }
+    
+    /**
+     * Get version
+     *
+     * @return integer 
+     */
+    public function getVersion() {
+      return $this->version;
+    }
+    
+    /**
+     * Get alias
+     * 
+     * @return string 
+     */
+    public function getAlias() {
+        return $this->alias;
+    }
+    
+    /**
+     * Set alias
+     * 
+     * @param string $name 
+     */
+    public function setAlias($alias) {
+        $this->alias = $alias;
+    }
+        
+    /**
+     * Get feature
+     *
+     * @return Feature 
+     */
+    public function getFeature() {
+        return $this->feature;
+    }
+
+    /**
+     * Set feature
+     * 
+     * @param Feature $feature 
+     * @param boolean $recurse 
+     */
+    public function setFeature($feature,$recurse = true) {
+        if ($recurse === true) {
+            if ($feature != null) {
+                $feature->addAlias($this,false);
+            } elseif ($this->feature != null) {
+                $this->feature->removeAlias($this,false);
+            }
+        }
+        $this->feature = $feature;
+    }
 }

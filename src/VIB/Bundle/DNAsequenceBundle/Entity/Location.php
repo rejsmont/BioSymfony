@@ -67,4 +67,93 @@ class Location
     {
         return $this->id;
     }
+        
+    /**
+     * Get version
+     *
+     * @return integer 
+     */
+    public function getVersion() {
+      return $this->version;
+    }
+    
+    /**
+     * Get start
+     * 
+     * @return integer 
+     */
+    public function getStart() {
+        return $this->start;
+    }
+    
+    /**
+     * Set start
+     * 
+     * @param integer $start 
+     */
+    public function setStart($start) {
+        $this->start = $start;
+    }
+    
+    /**
+     * Get end
+     * 
+     * @return integer 
+     */
+    public function getEnd() {
+        return $this->end;
+    }
+    
+    /**
+     * Set end
+     * 
+     * @param integer $end 
+     */
+    public function setEnd($end) {
+        $this->end = $end;
+    }
+    
+    /**
+     * Get strand
+     * 
+     * @return string 
+     */
+    public function getStrand() {
+        return $this->strand;
+    }
+    
+    /**
+     * Set strand
+     * 
+     * @param string $strand 
+     */
+    public function setStrand($strand) {
+        $this->strand = $strand;
+    }
+        
+    /**
+     * Get feature
+     *
+     * @return Feature 
+     */
+    public function getFeature() {
+        return $this->feature;
+    }
+
+    /**
+     * Set feature
+     * 
+     * @param Feature $feature 
+     * @param boolean $recurse 
+     */
+    public function setFeature($feature,$recurse = true) {
+        if ($recurse === true) {
+            if ($feature != null) {
+                $feature->addLocation($this,false);
+            } elseif ($this->feature != null) {
+                $this->feature->removeLocation($this,false);
+            }
+        }
+        $this->feature = $feature;
+    }
 }

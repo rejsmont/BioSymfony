@@ -182,8 +182,9 @@ class Feature
      * Add parent
      * 
      * @param Feature $parent 
+     * @param boolean $recurse 
      */
-    public function addParent($parent) {
+    public function addParent($parent,$recurse = true) {
         $this->parents[] = $parent;
     }
         
@@ -191,8 +192,9 @@ class Feature
      * Remove parent
      * 
      * @param Feature $parent 
+     * @param boolean $recurse 
      */
-    public function removeParent($parent) {
+    public function removeParent($parent,$recurse = true) {
         $this->parents->removeElement($parent);
     }
     
@@ -209,8 +211,9 @@ class Feature
      * Add child
      * 
      * @param Feature $child 
+     * @param boolean $recurse 
      */
-    public function addChild($child) {
+    public function addChild($child,$recurse = true) {
         $this->children[] = $child;
     }
         
@@ -218,8 +221,9 @@ class Feature
      * Remove child
      * 
      * @param Feature $child 
+     * @param boolean $recurse 
      */
-    public function removeChild($child) {
+    public function removeChild($child,$recurse = true) {
         $this->parents->removeElement($child);
     }
 
@@ -254,18 +258,26 @@ class Feature
      * Add alias
      * 
      * @param FeatureAlias $alias 
+     * @param boolean $recurse 
      */
-    public function addAlias($alias) {
+    public function addAlias($alias,$recurse = true) {
         $this->aliases[] = $alias;
+        if ($recurse === true) {
+            $alias->setFeature($this,false);
+        }
     }
         
     /**
      * Remove alias
      * 
      * @param FeatureAlias $alias 
+     * @param boolean $recurse 
      */
-    public function removeAlias($alias) {
+    public function removeAlias($alias,$recurse = true) {
         $this->aliases->removeElement($alias);
+        if ($recurse === true) {
+            $alias->setFeature(null,false);
+        }
     }
 
     /**
@@ -281,18 +293,26 @@ class Feature
      * Add location
      * 
      * @param Location $location 
+     * @param boolean $recurse 
      */
-    public function addLocation($location) {
+    public function addLocation($location,$recurse = true) {
         $this->locations[] = $location;
+        if ($recurse === true) {
+            $alias->setFeature($this,false);
+        }
     }
         
     /**
      * Remove location
      * 
      * @param Location $location 
+     * @param boolean $recurse 
      */
-    public function removeLocation($location) {
+    public function removeLocation($location,$recurse = true) {
         $this->locations->removeElement($location);
+        if ($recurse === true) {
+            $location->setFeature(null,false);
+        }
     }
     
     /**
@@ -308,18 +328,26 @@ class Feature
      * Add tag
      * 
      * @param FeatureTag $tag 
+     * @param boolean $recurse 
      */
-    public function addTag($tag) {
+    public function addTag($tag,$recurse = true) {
         $this->tags[] = $tag;
+        if ($recurse === true) {
+            $tag->setFeature($this,false);
+        }
     }
         
     /**
      * Remove tag
      * 
      * @param FeatureTag $tag 
+     * @param boolean $recurse 
      */
-    public function removeTag($tag) {
+    public function removeTag($tag,$recurse = true) {
         $this->tags->removeElement($tag);
+        if ($recurse === true) {
+            $tag->setFeature(null,false);
+        }
     }
 
     /**
@@ -335,10 +363,16 @@ class Feature
      * Set sequence
      * 
      * @param Sequence $sequence 
+     * @param boolean $recurse 
      */
-    public function setSequence($sequence) {
+    public function setSequence($sequence,$recurse = true) {
+        if ($recurse === true) {
+            if ($sequence != null) {
+                $sequence->addFeature($this,false);
+            } elseif ($this->sequence != null) {
+                $this->sequence->removeFeature($this,false);
+            }
+        }
         $this->sequence = $sequence;
     }
-
-
 }

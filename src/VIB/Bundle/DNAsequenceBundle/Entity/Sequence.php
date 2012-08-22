@@ -181,18 +181,25 @@ class Sequence
      * Add feature
      * 
      * @param Feature $feature
+     * @param boolean $recurse 
      */
-    public function addFeature($feature) {
+    public function addFeature($feature,$recurse = true) {
         $this->features[] = $feature;
+        if ($recurse === true) {
+            $feature->setSequence($this,false);
+        }
     }
     
     /**
      * Remove feature
      * 
      * @param Feature $feature
+     * @param boolean $recurse 
      */
-    public function removeFeature($feature) {
+    public function removeFeature($feature,$recurse = true) {
         $this->features->removeElement($feature);
+        if ($recurse === true) {
+            $feature->setSequence(null,false);
+        }
     }
-
 }
