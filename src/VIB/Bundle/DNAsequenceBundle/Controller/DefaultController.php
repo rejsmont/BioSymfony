@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use VIB\Bundle\DNAsequenceBundle\Entity\Gene;
+use VIB\Bundle\DNAsequenceBundle\Entity\Sequence;
+
 class DefaultController extends Controller
 {
     /**
@@ -15,6 +18,13 @@ class DefaultController extends Controller
      */
     public function indexAction($name = "guest")
     {
-        return array('name' => $name);
+        $seq = new Sequence();
+        $gene = new Gene();
+        
+        $seq->setName("a sequence");
+        $gene->setName("a gene");
+        $gene->setSequence($seq);
+        
+        return array('gene' => $gene);
     }
 }

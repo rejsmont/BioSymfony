@@ -9,15 +9,15 @@ use VIB\Bundle\DNAsequenceBundle\AbstractEntity as AbstractEntity;
 /**
  * VIB\Bundle\DNAsequenceBundle\Entity\Location
  *
- * @ORM\Table(name="DNAlocation")
+ * @ORM\Table(name="DNAmiscLocation")
  * @ORM\Entity(repositoryClass="VIB\Bundle\DNAsequenceBundle\Repository\LocationRepository")
  */
-class Location extends AbstractEntity\Location
+class MiscLocation extends AbstractEntity\Location
 {
     /**
-     * @var Feature $feature
+     * @var MiscFeature $feature
      * 
-     * @ORM\ManyToOne(targetEntity="Feature", inversedBy="aliases")
+     * @ORM\ManyToOne(targetEntity="MiscFeature", inversedBy="aliases")
      * @ORM\JoinColumn(name="feature_id", referencedColumnName="id")
      */
     protected $feature;

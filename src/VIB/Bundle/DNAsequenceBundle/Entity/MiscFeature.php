@@ -8,39 +8,30 @@ use Doctrine\Common\Collections\ArrayCollection;
 use VIB\Bundle\DNAsequenceBundle\AbstractEntity as AbstractEntity;
 
 /**
- * VIB\Bundle\DNAsequenceBundle\Entity\Feature
+ * VIB\Bundle\DNAsequenceBundle\Entity\MiscFeature
  *
- * @ORM\Table(name="DNAfeature", indexes={
- *      @ORM\Index(name="class_idx", columns={"class"}),
- *      @ORM\Index(name="name_idx", columns={"class","name"}),
- *      @ORM\Index(name="type_idx", columns={"class","type"}),
- *      @ORM\Index(name="name_type_idx", columns={"class","name","type"}),
+ * @ORM\Table(name="DNAmiscFeature", indexes={
+ *      @ORM\Index(name="name_idx", columns={"name"}),
+ *      @ORM\Index(name="type_idx", columns={"type"}),
+ *      @ORM\Index(name="name_type_idx", columns={"name","type"}),
  * })
  * 
- * @ORM\Entity(repositoryClass="VIB\Bundle\DNAsequenceBundle\Repository\FeatureRepository")
- * 
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="class", type="string")
- * @ORM\DiscriminatorMap({
- *      "feature" = "Feature",
- *      "gene" = "Gene",
- *      "mrna" = "mRNA",
- * })
+ * @ORM\Entity(repositoryClass="VIB\Bundle\DNAsequenceBundle\Repository\MiscFeatureRepository")
  */
-class Feature extends AbstractEntity\Feature
-{   
+class MiscFeature extends AbstractEntity\Feature
+{
     /**
      * @var Collection $parents
      * 
-     * @ORM\ManyToMany(targetEntity="Feature", mappedBy="children")
+     * @ORM\ManyToMany(targetEntity="MiscFeature", mappedBy="children")
      */
     protected $parents;
 
     /**
      * @var Collection $children
      * 
-     * @ORM\ManyToMany(targetEntity="Feature", inversedBy="parents")
-     * @ORM\JoinTable(name="DNAfeatureChildren",
+     * @ORM\ManyToMany(targetEntity="MiscFeature", inversedBy="parents")
+     * @ORM\JoinTable(name="DNAmiscFeatureChildren",
      *      joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
      *      )
@@ -48,9 +39,9 @@ class Feature extends AbstractEntity\Feature
     protected $children;
     
     /**
-     * @var Feature $origin
+     * @var MiscFeature $origin
      * 
-     * @ORM\ManyToOne(targetEntity="Feature")
+     * @ORM\ManyToOne(targetEntity="MiscFeature")
      * @ORM\JoinColumn(name="origin_id", referencedColumnName="id")
      */
     protected $origin;
@@ -58,21 +49,21 @@ class Feature extends AbstractEntity\Feature
     /**
      * @var Collection $aliases
      * 
-     * @ORM\OneToMany(targetEntity="FeatureAlias", mappedBy="feature")
+     * @ORM\OneToMany(targetEntity="MiscFeatureAlias", mappedBy="feature")
      */
     protected $aliases;
     
     /**
      * @var Collection $locations
      * 
-     * @ORM\OneToMany(targetEntity="Location", mappedBy="feature")
+     * @ORM\OneToMany(targetEntity="MiscLocation", mappedBy="feature")
      */
     protected $locations;
     
     /**
      * @var Collection $tags
      * 
-     * @ORM\OneToMany(targetEntity="FeatureTag", mappedBy="feature")
+     * @ORM\OneToMany(targetEntity="MiscFeatureTag", mappedBy="feature")
      */
     protected $tags;
 
@@ -83,5 +74,4 @@ class Feature extends AbstractEntity\Feature
      * @ORM\JoinColumn(name="sequence_id", referencedColumnName="id")
      */
     protected $sequence;
-    
 }
