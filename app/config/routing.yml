@@ -1,5 +1,5 @@
-VIBDNAsequenceBundle:
-    resource: "@VIBDNAsequenceBundle/Controller/"
+VIBBioBundle:
+    resource: "@VIBBioBundle/Controller/"
     type:     annotation
     prefix:   /
 
