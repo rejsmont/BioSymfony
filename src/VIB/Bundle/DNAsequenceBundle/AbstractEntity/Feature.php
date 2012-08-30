@@ -158,7 +158,7 @@ abstract class Feature
      * @param Feature $parent 
      * @param boolean $recurse 
      */
-    public function addParent($parent,$recurse = true) {
+    public function addParent(Feature $parent,$recurse = true) {
         $this->parents[] = $parent;
         if ($recurse === true) {
             $parent->addChild($this, false);
@@ -171,7 +171,7 @@ abstract class Feature
      * @param Feature $parent 
      * @param boolean $recurse 
      */
-    public function removeParent($parent,$recurse = true) {
+    public function removeParent(Feature $parent,$recurse = true) {
         $this->parents->removeElement($parent);
         if ($recurse === true) {
             $parent->removeChild($this, false);
@@ -193,7 +193,7 @@ abstract class Feature
      * @param Feature $child 
      * @param boolean $recurse 
      */
-    public function addChild($child,$recurse = true) {
+    public function addChild(Feature $child,$recurse = true) {
         $this->children[] = $child;
         if ($recurse === true) {
             $child->addParent($this, false);
@@ -206,7 +206,7 @@ abstract class Feature
      * @param Feature $child 
      * @param boolean $recurse 
      */
-    public function removeChild($child,$recurse = true) {
+    public function removeChild(Feature $child,$recurse = true) {
         $this->parents->removeElement($child);
         if ($recurse === true) {
             $child->removeParent($this, false);
@@ -227,7 +227,7 @@ abstract class Feature
      * 
      * @param Feature $origin 
      */
-    public function setOrigin($origin) {
+    public function setOrigin(Feature $origin) {
         $this->origin = $origin;
     }
 
@@ -246,7 +246,7 @@ abstract class Feature
      * @param FeatureAlias $alias 
      * @param boolean $recurse 
      */
-    public function addAlias($alias,$recurse = true) {
+    public function addAlias(FeatureAlias $alias,$recurse = true) {
         $this->aliases[] = $alias;
         if ($recurse === true) {
             $alias->setFeature($this,false);
@@ -259,7 +259,7 @@ abstract class Feature
      * @param FeatureAlias $alias 
      * @param boolean $recurse 
      */
-    public function removeAlias($alias,$recurse = true) {
+    public function removeAlias(FeatureAlias $alias,$recurse = true) {
         $this->aliases->removeElement($alias);
         if ($recurse === true) {
             $alias->setFeature(null,false);
@@ -281,7 +281,7 @@ abstract class Feature
      * @param Location $location 
      * @param boolean $recurse 
      */
-    public function addLocation($location,$recurse = true) {
+    public function addLocation(Location $location,$recurse = true) {
         $this->locations[] = $location;
         if ($recurse === true) {
             $alias->setFeature($this,false);
@@ -294,7 +294,7 @@ abstract class Feature
      * @param Location $location 
      * @param boolean $recurse 
      */
-    public function removeLocation($location,$recurse = true) {
+    public function removeLocation(Location $location,$recurse = true) {
         $this->locations->removeElement($location);
         if ($recurse === true) {
             $location->setFeature(null,false);
@@ -316,7 +316,7 @@ abstract class Feature
      * @param FeatureTag $tag 
      * @param boolean $recurse 
      */
-    public function addTag($tag,$recurse = true) {
+    public function addTag(FeatureTag $tag,$recurse = true) {
         $this->tags[] = $tag;
         if ($recurse === true) {
             $tag->setFeature($this,false);
@@ -329,7 +329,7 @@ abstract class Feature
      * @param FeatureTag $tag 
      * @param boolean $recurse 
      */
-    public function removeTag($tag,$recurse = true) {
+    public function removeTag(FeatureTag $tag,$recurse = true) {
         $this->tags->removeElement($tag);
         if ($recurse === true) {
             $tag->setFeature(null,false);
@@ -351,7 +351,7 @@ abstract class Feature
      * @param Sequence $sequence 
      * @param boolean $recurse 
      */
-    public function setSequence($sequence,$recurse = true) {
+    public function setSequence(Sequence $sequence,$recurse = true) {
         if ($recurse === true) {
             if ($sequence != null) {
                 $sequence->addFeature($this,false);

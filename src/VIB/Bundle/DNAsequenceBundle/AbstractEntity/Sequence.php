@@ -180,7 +180,7 @@ abstract class Sequence
      * @param Feature $feature
      * @param boolean $recurse 
      */
-    public function addFeature($feature,$recurse = true) {
+    public function addFeature(Feature $feature,$recurse = true) {
         $this->features[] = $feature;
         if ($recurse === true) {
             $feature->setSequence($this,false);
@@ -193,7 +193,7 @@ abstract class Sequence
      * @param Feature $feature
      * @param boolean $recurse 
      */
-    public function removeFeature($feature,$recurse = true) {
+    public function removeFeature(Feature $feature,$recurse = true) {
         $this->features->removeElement($feature);
         if ($recurse === true) {
             $feature->setSequence(null,false);

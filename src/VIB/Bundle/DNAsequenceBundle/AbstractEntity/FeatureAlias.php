@@ -92,7 +92,7 @@ abstract class FeatureAlias
      * @param Feature $feature 
      * @param boolean $recurse 
      */
-    public function setFeature($feature,$recurse = true) {
+    public function setFeature(Feature $feature,$recurse = true) {
         if ($recurse === true) {
             if ($feature != null) {
                 $feature->addAlias($this,false);

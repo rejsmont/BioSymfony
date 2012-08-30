@@ -3,7 +3,6 @@
 namespace VIB\Bundle\DNAsequenceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 use VIB\Bundle\DNAsequenceBundle\AbstractEntity as AbstractEntity;
 
