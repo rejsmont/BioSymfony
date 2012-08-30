@@ -12,7 +12,6 @@
 namespace VIB\Bundle\BioBundle\Entity\DNA;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * VIB\Bundle\BioBundle\Entity\DNA\Sequence

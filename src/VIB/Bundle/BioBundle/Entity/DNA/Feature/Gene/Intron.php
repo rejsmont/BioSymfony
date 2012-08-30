@@ -32,10 +32,7 @@ class Intron extends GeneChild {
 
     
     /**
-     * Add gene
-     * 
-     * @param Gene $gene 
-     * @param boolean $recurse 
+     * {@inheritDoc}
      */
     public function addGene(Gene $gene,$recurse = true) {
         $this->genes[] = $gene;
@@ -45,10 +42,7 @@ class Intron extends GeneChild {
     }
         
     /**
-     * Remove gene
-     * 
-     * @param Gene $gene 
-     * @param boolean $recurse 
+     * {@inheritDoc}
      */
     public function removeGene(Gene $gene,$recurse = true) {
         $this->genes->removeElement($gene);

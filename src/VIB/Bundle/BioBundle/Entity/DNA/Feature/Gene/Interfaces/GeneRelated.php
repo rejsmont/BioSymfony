@@ -20,7 +20,8 @@ interface GeneRelated {
     /**
      * Get gene
      * 
-     * @return Collection 
+     * @return Gene
+     * @return false if Feature is related to more than one Gene 
      */
     public function getGene();
     

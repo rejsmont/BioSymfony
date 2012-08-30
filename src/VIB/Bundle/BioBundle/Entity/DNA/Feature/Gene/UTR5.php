@@ -32,10 +32,7 @@ class UTR5 extends mRNAChild {
     
     
     /**
-     * Add mRNA
-     * 
-     * @param mRNA $mRNA 
-     * @param boolean $recurse 
+     * {@inheritDoc}
      */
     public function addmRNA(mRNA $mRNA,$recurse = true) {
         $this->mRNAs[] = $mRNA;
@@ -45,10 +42,7 @@ class UTR5 extends mRNAChild {
     }
         
     /**
-     * Remove mRNA
-     * 
-     * @param mRNA $mRNA 
-     * @param boolean $recurse 
+     * {@inheritDoc}
      */
     public function removemRNA(mRNA $mRNA,$recurse = true) {
         $this->mRNAs->removeElement($mRNA);

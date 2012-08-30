@@ -39,10 +39,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     }
     
     /**
-     * Get mRNA
-     * 
-     * @return mRNA
-     * @return false if CDS is associated with multiple mRNAs
+     * {@inheritDoc}
      */
     public function getmRNA() {
         $mRNAs = $this->getmRNAs();
@@ -74,9 +71,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     }
     
     /**
-     * Get mRNAs
-     * 
-     * @return Collection 
+     * {@inheritDoc}
      */
     public function getmRNAs() {
         return $this->mRNAs;
@@ -99,10 +94,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     abstract public function removemRNA(mRNA $mRNA,$recurse = true);
     
     /**
-     * Get gene
-     * 
-     * @return Gene
-     * @return false if mRNA is polycistronic
+     * {@inheritDoc}
      */
     public function getGene() {
         $genes = $this->getGenes();
@@ -116,9 +108,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     }
     
     /**
-     * Get genes
-     * 
-     * @return Collection
+     * {@inheritDoc}
      */
     public function getGenes() {
         $genes = new ArrayCollection();

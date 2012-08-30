@@ -38,10 +38,7 @@ abstract class GeneChild extends Feature implements GeneRelated {
     }
     
     /**
-     * Get gene
-     * 
-     * @return Gene
-     * @return false if mRNA is polycistronic
+     * {@inheritDoc}
      */
     public function getGene() {
         $genes = $this->getGenes();
@@ -73,9 +70,7 @@ abstract class GeneChild extends Feature implements GeneRelated {
     }
     
     /**
-     * Get genes
-     * 
-     * @return Collection 
+     * {@inheritDoc}
      */
     public function getGenes() {
         return $this->genes;

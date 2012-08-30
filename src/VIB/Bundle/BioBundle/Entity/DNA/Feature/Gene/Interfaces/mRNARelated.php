@@ -21,8 +21,7 @@ interface mRNARelated {
      * Get mRNA
      * 
      * @return mRNA
-     * @return null
-     * @return false if CDS is associated with multiple mRNAs
+     * @return false if Feature is related to more than one mRNA 
      */
     public function getmRNA();
     
