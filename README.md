@@ -1,2 +1,3 @@
-DNA toolkit for PHP
-===================
+Bioinformatics toolkit for PHP
+==============================
+Based on Symfony
