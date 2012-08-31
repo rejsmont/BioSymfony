@@ -25,7 +25,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Abstracts as Abstracts;
 class Gene extends Feature {
 
     /**
-     * @var Collection $mRNAs
+     * @var Doctrine\Common\Collections\Collection $mRNAs
      * 
      * @ORM\ManyToMany(targetEntity="mRNA", inversedBy="genes")
      * @ORM\JoinTable(name="DNAmRNAs",
@@ -36,7 +36,7 @@ class Gene extends Feature {
     protected $mRNAs;
     
     /**
-     * @var Collection $exons
+     * @var Doctrine\Common\Collections\Collection $exons
      * 
      * @ORM\ManyToMany(targetEntity="exon", inversedBy="genes")
      * @ORM\JoinTable(name="DNAexons",
@@ -47,7 +47,7 @@ class Gene extends Feature {
     protected $exons;
     
     /**
-     * @var Collection $introns
+     * @var Doctrine\Common\Collections\Collection $introns
      * 
      * @ORM\ManyToMany(targetEntity="intron", inversedBy="genes")
      * @ORM\JoinTable(name="DNAintrons",
@@ -69,7 +69,7 @@ class Gene extends Feature {
     /**
      * Get mRNAs
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getmRNAs() {
         return $this->mRNAs;
@@ -78,7 +78,7 @@ class Gene extends Feature {
     /**
      * Add mRNA
      * 
-     * @param mRNA $mRNA 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\mRNA $mRNA 
      * @param boolean $recurse 
      */
     public function addmRNA(mRNA $mRNA,$recurse = true) {
@@ -91,7 +91,7 @@ class Gene extends Feature {
     /**
      * Remove mRNA
      * 
-     * @param mRNA $mRNA 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\mRNA $mRNA 
      * @param boolean $recurse 
      */
     public function removemRNA(mRNA $mRNA,$recurse = true) {
@@ -104,7 +104,7 @@ class Gene extends Feature {
     /**
      * Get exons
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getExons() {
         return $this->exons;
@@ -113,7 +113,7 @@ class Gene extends Feature {
     /**
      * Add exon
      * 
-     * @param Exon $exon 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Exon $exon 
      * @param boolean $recurse 
      */
     public function addExon(Exon $exon,$recurse = true) {
@@ -126,7 +126,7 @@ class Gene extends Feature {
     /**
      * Remove exon
      * 
-     * @param Exon $exon 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Exon $exon 
      * @param boolean $recurse 
      */
     public function removeExon(Exon $exon,$recurse = true) {
@@ -139,7 +139,7 @@ class Gene extends Feature {
     /**
      * Get introns
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getIntrons() {
         return $this->introns;
@@ -148,7 +148,7 @@ class Gene extends Feature {
     /**
      * Add intron
      * 
-     * @param Intron $intron 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Intron $intron 
      * @param boolean $recurse 
      */
     public function addIntron(Intron $intron,$recurse = true) {
@@ -161,7 +161,7 @@ class Gene extends Feature {
     /**
      * Remove intron
      * 
-     * @param Intron $intron 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Intron $intron 
      * @param boolean $recurse 
      */
     public function removeIntron(Intron $intron,$recurse = true) {
@@ -174,7 +174,7 @@ class Gene extends Feature {
     /**
      * Get UTR5s
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getUTR5s() {      
         $UTR5s = new ArrayCollection();
@@ -191,7 +191,7 @@ class Gene extends Feature {
     /**
      * Get UTR3s
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getUTR3s() {      
         $UTR3s = new ArrayCollection();
@@ -208,7 +208,7 @@ class Gene extends Feature {
     /**
      * Get CDSs
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getCDSs() {      
         $CDSs = new ArrayCollection();

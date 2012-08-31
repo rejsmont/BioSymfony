@@ -14,7 +14,6 @@ namespace VIB\Bundle\BioBundle\Entity\DNA\MiscFeature;
 use Doctrine\ORM\Mapping as ORM;
 
 use VIB\Bundle\BioBundle\Entity\DNA\Abstracts as Abstracts;
-use VIB\Bundle\BioBundle\Entity\DNA\Sequence;
 
 /**
  * VIB\Bundle\BioBundle\Entity\DNA\MiscFeature\MiscFeature
@@ -30,14 +29,14 @@ use VIB\Bundle\BioBundle\Entity\DNA\Sequence;
 class MiscFeature extends Abstracts\Feature
 {
     /**
-     * @var Collection $parents
+     * @var Doctrine\Common\Collections\Collection $parents
      * 
      * @ORM\ManyToMany(targetEntity="MiscFeature", mappedBy="children")
      */
     protected $parents;
 
     /**
-     * @var Collection $children
+     * @var Doctrine\Common\Collections\Collection $children
      * 
      * @ORM\ManyToMany(targetEntity="MiscFeature", inversedBy="parents")
      * @ORM\JoinTable(name="DNAmiscFeatureChildren",
@@ -48,7 +47,7 @@ class MiscFeature extends Abstracts\Feature
     protected $children;
     
     /**
-     * @var MiscFeature $origin
+     * @var VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $origin
      * 
      * @ORM\ManyToOne(targetEntity="MiscFeature")
      * @ORM\JoinColumn(name="origin_id", referencedColumnName="id")
@@ -56,28 +55,28 @@ class MiscFeature extends Abstracts\Feature
     protected $origin;
 
     /**
-     * @var Collection $aliases
+     * @var Doctrine\Common\Collections\Collection $aliases
      * 
      * @ORM\OneToMany(targetEntity="MiscFeatureAlias", mappedBy="feature")
      */
     protected $aliases;
     
     /**
-     * @var Collection $locations
+     * @var Doctrine\Common\Collections\Collection $locations
      * 
      * @ORM\OneToMany(targetEntity="MiscLocation", mappedBy="feature")
      */
     protected $locations;
     
     /**
-     * @var Collection $tags
+     * @var Doctrine\Common\Collections\Collection $tags
      * 
      * @ORM\OneToMany(targetEntity="MiscFeatureTag", mappedBy="feature")
      */
     protected $tags;
 
     /**
-     * @var Sequence $sequence
+     * @var VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
      * 
      * @ORM\ManyToOne(targetEntity="VIB\Bundle\BioBundle\Entity\DNA\Sequence", inversedBy="features")
      * @ORM\JoinColumn(name="sequence_id", referencedColumnName="id")

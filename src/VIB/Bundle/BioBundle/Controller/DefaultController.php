@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Gene;
+use VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\CDS;
 use VIB\Bundle\BioBundle\Entity\DNA\Sequence;
 
 class DefaultController extends Controller
@@ -28,11 +28,11 @@ class DefaultController extends Controller
     public function indexAction($name = "guest")
     {
         $seq = new Sequence();
-        $gene = new Gene();
+        $CDS = new CDS();
         
         $seq->setName("a sequence");
-        $gene->setName("a gene");
-        $gene->setSequence($seq);
+        $CDS->setName("a gene");
+        $CDS->setSequence($seq);
         
         return array('gene' => $gene);
     }

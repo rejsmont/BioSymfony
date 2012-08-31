@@ -25,7 +25,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Interfaces\GeneRelated;
 abstract class GeneChild extends Feature implements GeneRelated {
     
     /**
-     * @var Collection $genes
+     * @var Doctrine\Common\Collections\Collection $genes
      * 
      */
     protected $genes;
@@ -54,7 +54,7 @@ abstract class GeneChild extends Feature implements GeneRelated {
     /**
      * Set gene
      * 
-     * @param Gene $gene 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Gene $gene 
      * @param boolean $recurse 
      */
     public function setGene(Gene $gene,$recurse = true) {
@@ -79,7 +79,7 @@ abstract class GeneChild extends Feature implements GeneRelated {
     /**
      * Add gene
      * 
-     * @param Gene $gene 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Gene $gene 
      * @param boolean $recurse 
      */
     abstract public function addGene(Gene $gene,$recurse = true);
@@ -87,7 +87,7 @@ abstract class GeneChild extends Feature implements GeneRelated {
     /**
      * Remove gene
      * 
-     * @param Gene $gene 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Gene $gene 
      * @param boolean $recurse 
      */
     abstract public function removeGene(Gene $gene,$recurse = true);

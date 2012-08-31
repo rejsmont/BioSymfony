@@ -23,7 +23,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Abstracts\GeneChild;
 class Exon extends GeneChild {
     
     /**
-     * @var Collection $genes
+     * @var Doctrine\Common\Collections\Collection $genes
      * 
      * @ORM\ManyToMany(targetEntity="Gene", mappedBy="exons")
      */

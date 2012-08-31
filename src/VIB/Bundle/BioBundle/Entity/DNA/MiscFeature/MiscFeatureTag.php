@@ -28,7 +28,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Abstracts as Abstracts;
 class MiscFeatureTag extends Abstracts\FeatureTag
 {
     /**
-     * @var MiscFeature $feature
+     * @var VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
      * 
      * @ORM\ManyToOne(targetEntity="MiscFeature", inversedBy="tags")
      * @ORM\JoinColumn(name="feature_id", referencedColumnName="id")

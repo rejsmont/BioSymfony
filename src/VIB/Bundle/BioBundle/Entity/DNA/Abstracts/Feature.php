@@ -53,32 +53,32 @@ abstract class Feature
     protected $type;
 
     /**
-     * @var Collection $parents
+     * @var Doctrine\Common\Collections\Collection $parents
      */
     protected $parents;
 
     /**
-     * @var Collection $children
+     * @var Doctrine\Common\Collections\Collection $children
      */
     protected $children;
     
     /**
-     * @var Feature $origin
+     * @var VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $origin
      */
     protected $origin;
 
     /**
-     * @var Collection $aliases
+     * @var Doctrine\Common\Collections\Collection $aliases
      */
     protected $aliases;
     
     /**
-     * @var Collection $locations
+     * @var Doctrine\Common\Collections\Collection $locations
      */
     protected $locations;
     
     /**
-     * @var Collection $tags
+     * @var Doctrine\Common\Collections\Collection $tags
      */
     protected $tags;
 
@@ -155,7 +155,7 @@ abstract class Feature
     /**
      * Get parents
      * 
-     * @return Collection  
+     * @return Doctrine\Common\Collections\Collection  
      */
     public function getParents() {
         return $this->parents;
@@ -164,7 +164,7 @@ abstract class Feature
     /**
      * Add parent
      * 
-     * @param Feature $parent 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $parent 
      * @param boolean $recurse 
      */
     public function addParent(Feature $parent,$recurse = true) {
@@ -177,7 +177,7 @@ abstract class Feature
     /**
      * Remove parent
      * 
-     * @param Feature $parent 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $parent 
      * @param boolean $recurse 
      */
     public function removeParent(Feature $parent,$recurse = true) {
@@ -190,7 +190,7 @@ abstract class Feature
     /**
      * Get children
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getChildren() {
         return $this->children;
@@ -199,7 +199,7 @@ abstract class Feature
     /**
      * Add child
      * 
-     * @param Feature $child 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $child 
      * @param boolean $recurse 
      */
     public function addChild(Feature $child,$recurse = true) {
@@ -212,7 +212,7 @@ abstract class Feature
     /**
      * Remove child
      * 
-     * @param Feature $child 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $child 
      * @param boolean $recurse 
      */
     public function removeChild(Feature $child,$recurse = true) {
@@ -225,7 +225,7 @@ abstract class Feature
     /**
      * Get origin
      * 
-     * @return Feature 
+     * @return VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature 
      */
     public function getOrigin() {
         return $this->origin;
@@ -234,7 +234,7 @@ abstract class Feature
     /**
      * Set origin
      * 
-     * @param Feature $origin 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $origin 
      */
     public function setOrigin(Feature $origin) {
         $this->origin = $origin;
@@ -243,7 +243,7 @@ abstract class Feature
     /**
      * Get aliases
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getAliases() {
         return $this->aliases;
@@ -252,7 +252,7 @@ abstract class Feature
     /**
      * Add alias
      * 
-     * @param FeatureAlias $alias 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\FeatureAlias $alias 
      * @param boolean $recurse 
      */
     public function addAlias(FeatureAlias $alias,$recurse = true) {
@@ -265,7 +265,7 @@ abstract class Feature
     /**
      * Remove alias
      * 
-     * @param FeatureAlias $alias 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\FeatureAlias $alias 
      * @param boolean $recurse 
      */
     public function removeAlias(FeatureAlias $alias,$recurse = true) {
@@ -278,7 +278,7 @@ abstract class Feature
     /**
      * Get locations
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getLocations() {
         return $this->locations;
@@ -287,7 +287,7 @@ abstract class Feature
     /**
      * Add location
      * 
-     * @param Location $location 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Location $location 
      * @param boolean $recurse 
      */
     public function addLocation(Location $location,$recurse = true) {
@@ -300,7 +300,7 @@ abstract class Feature
     /**
      * Remove location
      * 
-     * @param Location $location 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Location $location 
      * @param boolean $recurse 
      */
     public function removeLocation(Location $location,$recurse = true) {
@@ -313,7 +313,7 @@ abstract class Feature
     /**
      * Get tags
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getTags() {
         return $this->tags;
@@ -322,7 +322,7 @@ abstract class Feature
     /**
      * Add tag
      * 
-     * @param FeatureTag $tag 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\FeatureTag $tag 
      * @param boolean $recurse 
      */
     public function addTag(FeatureTag $tag,$recurse = true) {
@@ -335,7 +335,7 @@ abstract class Feature
     /**
      * Remove tag
      * 
-     * @param FeatureTag $tag 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\FeatureTag $tag 
      * @param boolean $recurse 
      */
     public function removeTag(FeatureTag $tag,$recurse = true) {
@@ -348,7 +348,7 @@ abstract class Feature
     /**
      * Get sequence
      * 
-     * @return Sequence 
+     * @return VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence 
      */
     public function getSequence() {
         return $this->sequence;
@@ -357,7 +357,7 @@ abstract class Feature
     /**
      * Set sequence
      * 
-     * @param Sequence $sequence 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
      * @param boolean $recurse 
      */
     public function setSequence(Sequence $sequence,$recurse = true) {

@@ -20,7 +20,7 @@ interface mRNARelated {
     /**
      * Get mRNA
      * 
-     * @return mRNA
+     * @return VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\mRNA
      * @return false if Feature is related to more than one mRNA 
      */
     public function getmRNA();
@@ -28,7 +28,7 @@ interface mRNARelated {
     /**
      * Get mRNAs
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getmRNAs();
     

@@ -23,7 +23,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Abstracts\mRNAChild;
 class UTR3 extends mRNAChild {
     
     /**
-     * @var Collection $mRNAs
+     * @var Doctrine\Common\Collections\Collection $mRNAs
      * 
      * @ORM\ManyToMany(targetEntity="mRNA", mappedBy="UTR3s")
      */

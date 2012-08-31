@@ -20,7 +20,7 @@ interface GeneRelated {
     /**
      * Get gene
      * 
-     * @return Gene
+     * @return VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Gene
      * @return false if Feature is related to more than one Gene 
      */
     public function getGene();
@@ -28,7 +28,7 @@ interface GeneRelated {
     /**
      * Get genes
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getGenes();
   

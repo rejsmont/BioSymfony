@@ -73,7 +73,7 @@ abstract class Sequence
     protected $circular;
     
     /**
-     * @var Collection $features
+     * @var Doctrine\Common\Collections\Collection $features
      */
     protected $features;
 
@@ -177,7 +177,7 @@ abstract class Sequence
     /**
      * Get features
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getFeatures() {
         return $this->features;
@@ -186,7 +186,7 @@ abstract class Sequence
     /**
      * Add feature
      * 
-     * @param Feature $feature
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
      * @param boolean $recurse 
      */
     public function addFeature(Feature $feature,$recurse = true) {
@@ -199,7 +199,7 @@ abstract class Sequence
     /**
      * Remove feature
      * 
-     * @param Feature $feature
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
      * @param boolean $recurse 
      */
     public function removeFeature(Feature $feature,$recurse = true) {

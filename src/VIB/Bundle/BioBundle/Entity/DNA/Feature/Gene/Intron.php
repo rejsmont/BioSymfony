@@ -23,7 +23,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Abstracts\GeneChild;
 class Intron extends GeneChild {
     
     /**
-     * @var Collection $genes
+     * @var Doctrine\Common\Collections\Collection $genes
      * 
      * @ORM\ManyToMany(targetEntity="Gene", mappedBy="introns")
      */

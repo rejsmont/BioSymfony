@@ -24,7 +24,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Abstracts as Abstracts;
 class Location extends Abstracts\Location
 {
     /**
-     * @var Feature $feature
+     * @var VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
      * 
      * @ORM\ManyToOne(targetEntity="Feature", inversedBy="aliases")
      * @ORM\JoinColumn(name="feature_id", referencedColumnName="id")

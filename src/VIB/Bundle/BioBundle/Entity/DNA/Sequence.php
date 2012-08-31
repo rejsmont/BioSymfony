@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Sequence extends Abstracts\Sequence
 {
     /**
-     * @var Collection $features
+     * @var Doctrine\Common\Collections\Collection $features
      * 
      * @ORM\OneToMany(targetEntity="VIB\Bundle\BioBundle\Entity\DNA\Feature\Feature", mappedBy="sequence")
      */

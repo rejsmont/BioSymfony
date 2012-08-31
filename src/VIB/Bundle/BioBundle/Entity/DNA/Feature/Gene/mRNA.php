@@ -24,7 +24,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Abstracts as Abstracts;
 class mRNA extends GeneChild {
     
     /**
-     * @var Collection $CDSs
+     * @var Doctrine\Common\Collections\Collection $CDSs
      * 
      * @ORM\ManyToMany(targetEntity="CDS", inversedBy="mRNAs")
      * @ORM\JoinTable(name="DNA_CDSs",
@@ -35,7 +35,7 @@ class mRNA extends GeneChild {
     protected $CDSs;
 
     /**
-     * @var Collection $UTR5s
+     * @var Doctrine\Common\Collections\Collection $UTR5s
      * 
      * @ORM\ManyToMany(targetEntity="UTR5", inversedBy="mRNAs")
      * @ORM\JoinTable(name="DNA_UTR5s",
@@ -46,7 +46,7 @@ class mRNA extends GeneChild {
     protected $UTR5s;
     
     /**
-     * @var Collection $UTR3s
+     * @var Doctrine\Common\Collections\Collection $UTR3s
      * 
      * @ORM\ManyToMany(targetEntity="UTR3", inversedBy="mRNAs")
      * @ORM\JoinTable(name="DNA_UTR3s",
@@ -57,7 +57,7 @@ class mRNA extends GeneChild {
     protected $UTR3s;
     
     /**
-     * @var Collection $genes
+     * @var Doctrine\Common\Collections\Collection $genes
      * 
      * @ORM\ManyToMany(targetEntity="Gene", mappedBy="mRNAs")
      */
@@ -75,7 +75,7 @@ class mRNA extends GeneChild {
     /**
      * Get CDSs
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getCDSs() {
         return $this->CDSs;
@@ -84,7 +84,7 @@ class mRNA extends GeneChild {
     /**
      * Add CDS
      * 
-     * @param CDS $CDS 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\CDS $CDS 
      * @param boolean $recurse 
      */
     public function addCDS(CDS $CDS,$recurse = true) {
@@ -97,7 +97,7 @@ class mRNA extends GeneChild {
     /**
      * Remove CDS
      * 
-     * @param CDS $CDS 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\CDS $CDS 
      * @param boolean $recurse 
      */
     public function removeCDS(CDS $CDS,$recurse = true) {
@@ -110,7 +110,7 @@ class mRNA extends GeneChild {
     /**
      * Get UTR5s
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getUTR5s() {
         return $this->UTR5s;
@@ -119,7 +119,7 @@ class mRNA extends GeneChild {
     /**
      * Add UTR5
      * 
-     * @param UTR5 $UTR5 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\UTR5 $UTR5 
      * @param boolean $recurse 
      */
     public function addUTR5(UTR5 $UTR5,$recurse = true) {
@@ -132,7 +132,7 @@ class mRNA extends GeneChild {
     /**
      * Remove UTR5
      * 
-     * @param UTR5 $UTR5 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\UTR5 $UTR5 
      * @param boolean $recurse 
      */
     public function removeUTR5(UTR5 $UTR5,$recurse = true) {
@@ -145,7 +145,7 @@ class mRNA extends GeneChild {
     /**
      * Get UTR3s
      * 
-     * @return Collection 
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getUTR3s() {
         return $this->UTR3s;
@@ -154,7 +154,7 @@ class mRNA extends GeneChild {
     /**
      * Add UTR3
      * 
-     * @param UTR3 $UTR3 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\UTR3 $UTR3 
      * @param boolean $recurse 
      */
     public function addUTR3(UTR3 $UTR3,$recurse = true) {
@@ -167,7 +167,7 @@ class mRNA extends GeneChild {
     /**
      * Remove UTR3
      * 
-     * @param UTR3 $UTR3 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\UTR3 $UTR3 
      * @param boolean $recurse 
      */
     public function removeUTR3(UTR3 $UTR3,$recurse = true) {

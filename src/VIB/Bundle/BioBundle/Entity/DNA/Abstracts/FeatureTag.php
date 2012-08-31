@@ -52,7 +52,7 @@ abstract class FeatureTag
     protected $value;
     
     /**
-     * @var Feature $feature
+     * @var VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
      */
     protected $feature;
 
@@ -115,7 +115,7 @@ abstract class FeatureTag
     /**
      * Get feature
      *
-     * @return Feature 
+     * @return VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature 
      */
     public function getFeature() {
         return $this->feature;
@@ -124,7 +124,7 @@ abstract class FeatureTag
     /**
      * Set feature
      * 
-     * @param Feature $feature 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature 
      * @param boolean $recurse 
      */
     public function setFeature(Feature $feature,$recurse = true) {

@@ -26,7 +26,7 @@ use VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\Interfaces\GeneRelated;
 abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     
     /**
-     * @var Collection $mRNAs
+     * @var Doctrine\Common\Collections\Collection $mRNAs
      * 
      */
     protected $mRNAs;
@@ -55,7 +55,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     /**
      * Set mRNA
      * 
-     * @param mRNA $mRNA 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\mRNA $mRNA 
      * @param boolean $recurse 
      */
     public function setmRNA(mRNA $mRNA,$recurse = true) {
@@ -80,7 +80,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     /**
      * Add mRNA
      * 
-     * @param mRNA $mRNA 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\mRNA $mRNA 
      * @param boolean $recurse 
      */
     abstract public function addmRNA(mRNA $mRNA,$recurse = true);
@@ -88,7 +88,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
     /**
      * Remove mRNA
      * 
-     * @param mRNA $mRNA 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Feature\Gene\mRNA $mRNA 
      * @param boolean $recurse 
      */
     abstract public function removemRNA(mRNA $mRNA,$recurse = true);
