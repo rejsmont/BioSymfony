@@ -18,7 +18,14 @@ use VIB\Bundle\BioBundle\Entity\DNA\Abstracts as Abstracts;
 /**
  * VIB\Bundle\BioBundle\Entity\DNA\Feature\Location
  *
- * @ORM\Table(name="DNAlocation")
+ * @ORM\Table(name="DNAlocation", indexes={
+ *      @ORM\Index(name="start_idx", columns={"start"}),
+ *      @ORM\Index(name="end_idx", columns={"end"}),
+ *      @ORM\Index(name="strand_idx", columns={"strand"}),
+ *      @ORM\Index(name="start_end_idx", columns={"start","end"}),
+ *      @ORM\Index(name="start_end_strand_idx", columns={"start","end","strand"}),
+ * })
+ * 
  * @ORM\Entity(repositoryClass="VIB\Bundle\BioBundle\Repository\DNA\Feature\LocationRepository")
  */
 class Location extends Abstracts\Location

@@ -293,7 +293,7 @@ abstract class Feature
     public function addLocation(Location $location,$recurse = true) {
         $this->locations[] = $location;
         if ($recurse === true) {
-            $alias->setFeature($this,false);
+            $location->setFeature($this,false);
         }
     }
         
@@ -369,5 +369,105 @@ abstract class Feature
             }
         }
         $this->sequence = $sequence;
+    }
+    
+    /**
+     * Get start
+     * 
+     * @return integer
+     */
+    public function getStart() {
+        $start = 0;
+        foreach ($this->getLocations() as $location) {
+            if (($start == 0)||($location->getStart() < $start)) {
+                $start = $location->getStart();
+            }
+        }
+        return $start;
+    }
+    
+    /**
+     * Get end
+     * 
+     * @return integer
+     */
+    public function getEnd() {
+        $end = 0;
+        foreach ($this->getLocations() as $location) {
+            if (($end == 0)||($location->getEnd() < $end)) {
+                $end = $location->getEnd();
+            }
+        }
+        return $end;
+    }
+    
+    /**
+     * Get strand
+     * 
+     * @return string
+     */
+    public function getStrand() {
+        $strand = null;
+        foreach ($this->getLocations() as $location) {
+            if ($strand == null) {
+                $strand = $location->getStrand();
+            } elseif ($location->getStrand() != $strand) {
+                return "+/-";
+            }
+        }
+        return $strand;
+    }
+    
+    /**
+     * Is feature continuous
+     * 
+     * @return boolean
+     */    
+    public function isContinuous() {
+        $start = 0;
+        $end = 0;
+        foreach ($this->getLocations() as $location) {
+            if (($start == 0)&&($end == 0)) {
+                $start = $location->getStart();
+                $end = $location->getEnd();
+            } elseif ($location->getStart() != $end + 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Is feature discrete
+     * 
+     * @return boolean
+     */    
+    public function isDiscrete() {
+        return ! $this->isContinuous();
+    }
+    
+    /**
+     * Get attribute
+     * 
+     * @param string $field
+     * @return string|array
+     */
+    public function getAttribute($field) {
+        $values = array();
+        foreach ($this->getTags() as $tag) {
+            if ($tag->getField() == $field) {
+                $values[] = $tag->getValue();
+            }
+        }
+        switch (count($values)) {
+            case 0:
+                return null;
+                break;
+            case 1:
+                return $values[0];
+                break;
+            default:
+                return $values;
+        }
     }
 }

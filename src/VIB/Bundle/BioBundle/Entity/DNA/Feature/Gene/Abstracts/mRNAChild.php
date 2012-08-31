@@ -45,7 +45,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
         $mRNAs = $this->getmRNAs();
         if ($mRNAs->count() == 1) {
             return $mRNAs->first();
-        } else if ($mRNAs->count() > 1) {
+        } elseif ($mRNAs->count() > 1) {
             return false;
         } else {
             return NULL;
@@ -100,7 +100,7 @@ abstract class mRNAChild extends Feature implements mRNARelated, GeneRelated {
         $genes = $this->getGenes();
         if ($genes->count() == 1) {
             return $genes->first();
-        } else if ($genes->count() > 1) {
+        } elseif ($genes->count() > 1) {
             return false;
         } else {
             return NULL;

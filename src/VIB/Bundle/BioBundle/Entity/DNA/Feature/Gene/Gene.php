@@ -251,9 +251,9 @@ class Gene extends Feature {
     public function addChild(Abstracts\Feature $child,$recurse = true) {
         if($child instanceof Exon) {
             $this->addExon($child,$recurse);
-        } else if ($child instanceof Intron) {
+        } elseif ($child instanceof Intron) {
             $this->addIntron($child,$recurse);
-        } else if ($child instanceof mRNA) {
+        } elseif ($child instanceof mRNA) {
             $this->addmRNA($child,$recurse);
         } else {
             parent::addChild($child, $recurse);
@@ -266,9 +266,9 @@ class Gene extends Feature {
     public function removeChild(Abstracts\Feature $child,$recurse = true) {
         if($child instanceof Exon) {
             $this->removeExon($child,$recurse);
-        } else if ($child instanceof Intron) {
+        } elseif ($child instanceof Intron) {
             $this->removeIntron($child,$recurse);
-        } else if ($child instanceof mRNA) {
+        } elseif ($child instanceof mRNA) {
             $this->removemRNA($child,$recurse);
         } else {
             parent::removeChild($child, $recurse);

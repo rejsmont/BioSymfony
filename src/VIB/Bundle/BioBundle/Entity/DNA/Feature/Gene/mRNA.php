@@ -226,9 +226,9 @@ class mRNA extends GeneChild {
     public function addChild(Abstracts\Feature $child,$recurse = true) {
         if($child instanceof CDS) {
             $this->addCDS($child,$recurse);
-        } else if ($child instanceof UTR5) {
+        } elseif ($child instanceof UTR5) {
             $this->addUTR5($child,$recurse);
-        } else if ($child instanceof UTR3) {
+        } elseif ($child instanceof UTR3) {
             $this->addUTR3($child,$recurse);
         } else {
             parent::addChild($child, $recurse);
@@ -241,9 +241,9 @@ class mRNA extends GeneChild {
     public function removeChild(Abstracts\Feature $child,$recurse = true) {
         if($child instanceof CDS) {
             $this->removeCDS($child,$recurse);
-        } else if ($child instanceof UTR5) {
+        } elseif ($child instanceof UTR5) {
             $this->removeUTR5($child,$recurse);
-        } else if ($child instanceof UTR3) {
+        } elseif ($child instanceof UTR3) {
             $this->removeUTR3($child,$recurse);
         } else {
             parent::removeChild($child, $recurse);

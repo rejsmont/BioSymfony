@@ -44,7 +44,7 @@ abstract class GeneChild extends Feature implements GeneRelated {
         $genes = $this->getGenes();
         if ($genes->count() == 1) {
             return $genes->first();
-        } else if ($genes->count() > 1) {
+        } elseif ($genes->count() > 1) {
             return false;
         } else {
             return NULL;
