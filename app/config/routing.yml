@@ -1,3 +1,8 @@
+VIBBioFormatsBundle:
+    resource: "@VIBBioFormatsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 VIBBioBundle:
     resource: "@VIBBioBundle/Controller/"
     type:     annotation

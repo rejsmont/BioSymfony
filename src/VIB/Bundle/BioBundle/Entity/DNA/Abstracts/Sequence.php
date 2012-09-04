@@ -59,6 +59,13 @@ abstract class Sequence
     protected $name;
     
     /**
+     * @var string $description
+     * 
+     * @ORM\Column(name="description", type="text")
+     */
+    protected $description;
+    
+    /**
      * @var string $sequence
      * 
      * @ORM\Column(name="sequence", type="text")
@@ -136,6 +143,24 @@ abstract class Sequence
      */
     public function setName($name) {
         $this->name = $name;
+    }
+    
+    /**
+     * Get description
+     * 
+     * @return string 
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
+    /**
+     * Set description
+     * 
+     * @param string $description 
+     */
+    public function setDescription($description) {
+        $this->description = $description;
     }
 
     /**

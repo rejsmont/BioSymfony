@@ -9,32 +9,20 @@
  * with this source code in the file LICENSE.
  */
 
-namespace VIB\Bundle\BioBundle\Controller;
+namespace VIB\Bundle\BioFormatsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use VIB\Bundle\BioFormatsBundle\FileFormat\FastAFile;
-
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
      * @Route("/hello/{name}")
      * @Template()
      */
-    public function indexAction($name = "guest")
+    public function indexAction($name)
     {
-        $file = new \SplFileInfo("/tmp/example.fas");
-        $fastA = new FastAFile($file->openFile());
-        if ($fastA->isValid()) {
-            $fastA->readFile();
-            $sequences = $fastA->getSequences();
-            return array('sequences' => $sequences, 'correct' => true);
-        } else {
-            return array('correct' => false);
-        }
-        
+        return array('name' => $name);
     }
 }
