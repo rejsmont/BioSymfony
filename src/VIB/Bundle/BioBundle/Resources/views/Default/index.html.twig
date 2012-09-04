@@ -1,9 +1,11 @@
 <pre>
 {% if correct == true %}
 We have {{ sequences.count }} sequences!
+
 {% for sequence in sequences %}
 >{{sequence.name}} | {{sequence.description}}
 {{ sequence.sequence }}
+
 {% endfor %}
 {% else %}
 File is not a valid FastA

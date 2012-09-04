@@ -29,7 +29,6 @@ class DefaultController extends Controller
         $file = new \SplFileInfo("/tmp/example.fas");
         $fastA = new FastAFile($file->openFile());
         if ($fastA->isValid()) {
-            $fastA->readFile();
             $sequences = $fastA->getSequences();
             return array('sequences' => $sequences, 'correct' => true);
         } else {

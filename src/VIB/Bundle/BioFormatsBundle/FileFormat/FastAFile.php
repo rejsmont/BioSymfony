@@ -26,12 +26,18 @@ class FastAFile implements Interfaces\SequenceFile {
     
     protected $sequences;
     protected $file;
+    protected $fileRead;
+    protected $fileWritten;
+    protected $fileValid;
     
     /**
      * 
      * @param \VIB\Bundle\BioFormatsBundle\FileFormat\SplFileObject|VIB\Bundle\BioBundle\Entity\DNA\Sequence|Doctrine\Common\Collections\Collection $parameter
      */
     public function __construct(\SplFileObject $file = null,Collection $sequences = null) {
+        $this->fileRead = false;
+        $this->fileWritten = false;
+        $this->fileValid = null;
         $this->file = $file;
         if ($sequences == null) {
             $this->sequences = new ArrayCollection();
@@ -46,6 +52,7 @@ class FastAFile implements Interfaces\SequenceFile {
      * @return Doctrine\Common\Collections\ArrayCollection
      */
     public function getSequences() {
+        $this->isValid();
         return $this->sequences;
     }
 
@@ -91,26 +98,10 @@ class FastAFile implements Interfaces\SequenceFile {
      * @return boolean
      */
     public function isValid() {
-        $file = $this->getFile();
-        if ($file == null) {
-            return false;
+        if (!$this->fileRead) {
+            $this->readFile();
         }
-        $valid = false;
-        foreach ($file as $line) {
-            $line = trim($line);
-            if ((strlen($line) > 0)&&($line[0] == ">")) {
-                $valid = true;
-            } elseif ((strlen($line) > 0)&&($line[0] == ";")) {
-                $valid = true;
-            } elseif (preg_match("/^[aAcCgGtTrRyYkKmMsSwWbBdDhHvVnN]*$/",$line)) {
-                $valid = true;
-            } else {
-                $valid = false;
-                break;
-            }
-        }
-        $file->rewind();
-        return $valid;
+        return $this->fileValid;
     }
     
     /**
@@ -121,6 +112,7 @@ class FastAFile implements Interfaces\SequenceFile {
     public function readFile() {
         $file = $this->getFile();
         if ($file == null) {
+            $this->fileValid = false;
             return false;
         }
         $sequencesRead = 0;
@@ -128,14 +120,21 @@ class FastAFile implements Interfaces\SequenceFile {
             $line = trim($file->current());
             if ((strlen($line) > 0)&&($line[0] == ">")) {
                 $sequence = $this->readSequence($file);
-                if ($sequence != null) {
+                if ($sequence instanceof Sequence) {
                     $this->addSequence($sequence);
                     $sequencesRead++;
+                    $this->fileValid = true;
+                } else {
+                    $this->fileValid = false;
+                    $file->rewind();
+                    return false;
                 }
             } else {
                 $file->next();
             }
         }
+        $this->fileRead = true;
+        $file->rewind();
         return $sequencesRead;
     }
     
@@ -147,6 +146,7 @@ class FastAFile implements Interfaces\SequenceFile {
     protected function readSequence() {
         $file = $this->getFile();
         if ($file == null) {
+            $this->fileValid = false;
             return false;
         }
         $newSequence = true;
@@ -155,16 +155,29 @@ class FastAFile implements Interfaces\SequenceFile {
         
         while (!$file->eof()) {
             $line = trim($file->current());
-            if ((strlen($line) > 0)&&($line[0] == ">")) {
-                if ($newSequence) {
-                    $this->parseHeader($line, $sequence);
-                    $newSequence = false;
+            if (strlen($line) > 0) {
+                if ($line[0] == ">") {
+                    if ($file->eof()) {
+                        $this->fileValid = false;
+                        return false;
+                    }
+                    if ($newSequence) {
+                        $this->parseHeader($line, $sequence);
+                        $sequenceText = "";
+                        $newSequence = false;
+                    } else {
+                        break;
+                    }
+                } elseif ($line[0] == ";") {
                 } else {
-                    break;
+                     $line = preg_replace('/\s+/','',$line);
+                     if (preg_match("/^[aAcCgGtTrRyYkKmMsSwWbBdDhHvVnN]*$/",$line)) {
+                        $sequenceText .= $line;
+                     } else {
+                         $this->fileValid = false;
+                         return false;
+                     }
                 }
-            } elseif ((strlen($line) > 0)&&($line[0] == ";")) {
-            } else {
-                $sequenceText .= preg_replace('/\s+/','',$line);
             }
             $file->next();
         }
