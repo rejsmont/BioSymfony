@@ -17,7 +17,28 @@ namespace VIB\Bundle\BioFormatsBundle\FileFormat\Interfaces;
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
 interface SequenceFile {
-    //put your code here
+    
+    /**
+     * Get sequences
+     * 
+     * @return Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getSequences();
+    
+    /**
+     * Add sequence
+     * 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Sequence $sequence 
+     */
+    public function addSequence(AbstractSequence $sequence);
+    
+    /**
+     * Remove sequence
+     * 
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Sequence $sequence 
+     */
+    public function removeSequence(AbstractSequence $sequence);
+    
 }
 
 ?>

@@ -26,10 +26,11 @@ class DefaultController extends Controller
      */
     public function indexAction($name = "guest")
     {
-        $file = new \SplFileInfo("/tmp/example.fas");
-        $fastA = new FastAFile($file->openFile());
+        $fastA = new FastAFile(new \SplFileObject("/tmp/example.fas"));
         if ($fastA->isValid()) {
             $sequences = $fastA->getSequences();
+            $fastA = new FastAFile(new \SplFileObject("/tmp/example_output.fas","w"),$sequences);
+            $fastA->writeFile();
             return array('sequences' => $sequences, 'correct' => true);
         } else {
             return array('correct' => false);

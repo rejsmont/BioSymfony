@@ -16,7 +16,7 @@ namespace VIB\Bundle\BioFormatsBundle\FileFormat;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-class GFFFile implements Interfaces\SequenceFile, Interfaces\AnnotationsFile {
+class GFFFile extends FastAFile implements Interfaces\AnnotationsFile {
     //put your code here
 }
 
