@@ -18,9 +18,28 @@ namespace VIB\Bundle\BioFormatsBundle\FileFormat\Abstracts;
  */
 abstract class BioFormatFile {
     
+    /**
+     *
+     * @var SplFileObject $file 
+     */
     protected $file;
+    
+    /**
+     *
+     * @var boolean $fileRead 
+     */
     protected $fileRead;
+    
+    /**
+     *
+     * @var boolean $fileWritten 
+     */
     protected $fileWritten;
+    
+    /**
+     *
+     * @var boolean $fileValid 
+     */
     protected $fileValid;
     
     

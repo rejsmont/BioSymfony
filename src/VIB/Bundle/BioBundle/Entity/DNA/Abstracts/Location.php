@@ -63,6 +63,22 @@ abstract class Location
      */
     protected $feature;
     
+    
+    
+    /**
+     * 
+     * @param integer $start
+     * @param integer $end
+     * @param string $strand
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
+     */
+    public function __construct($start = 0, $end = 0, $strand = "", Feature $feature = null) {
+        $this->start = $start;
+        $this->end = $end;
+        $this->strand = $strand;
+        $this->feature = $feature;
+    }
+    
     /**
      * Get id
      *

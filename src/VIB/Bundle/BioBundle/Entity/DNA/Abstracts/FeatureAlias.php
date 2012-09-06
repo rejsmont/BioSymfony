@@ -49,6 +49,18 @@ abstract class FeatureAlias
      */
     protected $feature;
 
+    
+    
+    /**
+     * 
+     * @param string $alias
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
+     */
+    public function __construct($alias = "", Feature $feature = null) {
+        $this->alias = $alias;
+        $this->feature = $feature;
+    }
+    
     /**
      * Get id
      *

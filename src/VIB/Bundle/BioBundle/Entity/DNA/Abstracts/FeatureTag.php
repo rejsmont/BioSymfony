@@ -57,6 +57,19 @@ abstract class FeatureTag
     protected $feature;
 
 
+    
+    /**
+     * 
+     * @param string $field
+     * @param string $value
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Feature $feature
+     */
+    public function __construct($field = "", $value = "", Feature $feature = null) {
+        $this->field = $field;
+        $this->value = $value;
+        $this->feature = $feature;
+    }
+    
     /**
      * Get id
      *

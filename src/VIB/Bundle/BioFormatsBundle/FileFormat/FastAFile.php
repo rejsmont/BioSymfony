@@ -24,7 +24,13 @@ use VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence as AbstractSequence;
  */
 class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFile {
     
+    /**
+     *
+     * @var Doctrine\Common\Collections\Collection $sequences 
+     */
     protected $sequences;
+    
+    
     
     /**
      * 
@@ -147,7 +153,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
                         return false;
                     }
                     if ($newSequence) {
-                        $this->parseHeader($line, $sequence);
+                        $this->parseFastAHeader($line, $sequence);
                         $sequenceText = "";
                         $newSequence = false;
                     } else {
@@ -208,7 +214,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      * @param string $line
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
      */
-    protected function parseHeader($line, AbstractSequence $sequence) {
+    protected function parseFastAHeader($line, AbstractSequence $sequence) {
         $match = array();
         if (preg_match("/^>(\S+)(.*)$/",$line,$match) === 1) {
             $name = trim($match[1]);
