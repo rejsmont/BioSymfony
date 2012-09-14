@@ -104,7 +104,6 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
     }
     
     /**
-     * @todo Reimplement method to use sequence index
      * {@inheritDoc}
      */
     public function readFile() {
