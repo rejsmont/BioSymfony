@@ -17,6 +17,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use VIB\Bundle\BioBundle\Entity\DNA\Sequence;
 use VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence as AbstractSequence;
 
+use VIB\Bundle\BioFormatsBundle\FileFormat\Collections\SequenceFileCollection;
+
 /**
  * VIB\Bundle\BioFormatsBundle\FileFormat\FastAFile
  *
@@ -30,6 +32,12 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      */
     protected $sequences;
     
+    /**
+     * 
+     * @var array $sequenceIndex
+     */
+    protected $sequenceIndex;
+    
     
     
     /**
@@ -39,20 +47,21 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      */
     public function __construct(\SplFileObject $file = null,Collection $sequences = null) {
         parent::__construct($file);
-        if ($sequences == null) {
-            $this->sequences = new ArrayCollection();
-        } else {
-            $this->sequences = $sequences;
-        }
+        $this->indexFile();
+        $this->sequences = new SequenceFileCollection($this);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getSequenceIndex() {
+        return $this->sequenceIndex;
     }
     
     /**
      * {@inheritDoc}
      */
     public function getSequences() {
-        if (($this->sequences->count() == 0)&&(!$this->fileRead)) {
-            $this->readFile();
-        }
         return $this->sequences;
     }
 
@@ -71,6 +80,31 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
     }
     
     /**
+     * Index sequences in the file
+     * 
+     * @return boolean
+     */
+    public function indexFile() {
+        $file = $this->getFile();
+        if ($file == null) {
+            $this->fileValid = false;
+            return false;
+        }
+        while (!$file->eof()) {
+            $line = trim($file->current());
+            if (strlen($line) > 0) {
+                if ($line[0] == ">") {
+                    $this->indexSequence($line,$file->key());
+                }
+            }
+            $file->next();
+        }
+        $this->fileIndexed = true;
+        return true;
+    }
+    
+    /**
+     * @todo Reimplement method to use sequence index
      * {@inheritDoc}
      */
     public function readFile() {
@@ -80,31 +114,10 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             return false;
         }
         $sequencesRead = 0;
-        while (!$file->eof()) {
-            $line = trim($file->current());
-            if (strlen($line) > 0) {
-                if ($line[0] == ">") {
-                    $sequence = $this->readSequence($file);
-                    if ($sequence instanceof Sequence) {
-                        $this->addSequence($sequence);
-                        $sequencesRead++;
-                        $this->fileValid = true;
-                    } else {
-                        $this->fileValid = false;
-                        $file->rewind();
-                        return false;
-                    }
-                    continue;
-                } elseif ($line[0] != ";") {
-                    $this->fileValid = false;
-                    $file->rewind();
-                    return false;
-                }
-            }
-            $file->next();
+        foreach ($this->sequenceIndex as $indexEntry) {
+            $this->readSequence($indexEntry);
         }
         $this->fileRead = true;
-        $file->rewind();
         return $sequencesRead;
     }
     
@@ -129,28 +142,51 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         return $sequencesWritten;
     }
     
+    
     /**
-     * Read single sequence from FastA file
+     * Create index entry for sequence
      * 
-     * @return VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence|boolean The sequence read or false on error
+     * @param string $line 
+     * @param integer $lineNumber 
+     * @return boolean 
      */
-    protected function readSequence() {
+    private function indexSequence($line,$lineNumber) {
+        $match = array();
+        if (preg_match("/^>(\S+)(.*)$/",$line,$match) === 1) {
+            $name = trim($match[1]);
+            if (strlen($name) > 0) {
+                $this->sequenceIndex[$name] = $lineNumber;
+            } else {
+                $this->fileValid = false;
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function readSequence($indexEntry = false) {
         $file = $this->getFile();
         if ($file == null) {
             $this->fileValid = false;
-            return false;
+            return null;
         }
         $newSequence = true;
         $sequence = new Sequence();
         $sequenceText = "";
-        
+        if (! isset($this->sequenceIndex[$indexEntry])) {
+            return null;
+        }
+        $file->seek($this->sequenceIndex[$indexEntry]);
         while (!$file->eof()) {
             $line = trim($file->current());
             if (strlen($line) > 0) {
                 if ($line[0] == ">") {
                     if ($file->eof()) {
                         $this->fileValid = false;
-                        return false;
+                        return null;
                     }
                     if ($newSequence) {
                         $this->parseFastAHeader($line, $sequence);
@@ -167,7 +203,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
                          break;
                      } else {
                          $this->fileValid = false;
-                         return false;
+                         return null;
                      }
                 }
             } else {
@@ -226,6 +262,14 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
                 $sequence->setDescription($description);
             }
         }
+    }
+
+    public function removeSequenceAtIndex($indexEntry) {
+        
+    }
+
+    public function replaceSequenceAtIndex($indexEntry, AbstractSequence $sequence) {
+        
     }
 }
 

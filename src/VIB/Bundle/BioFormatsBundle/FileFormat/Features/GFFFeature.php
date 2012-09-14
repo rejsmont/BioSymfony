@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace VIB\Bundle\BioFormatsBundle\FileFormat;
+namespace VIB\Bundle\BioFormatsBundle\FileFormat\Features;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -77,6 +77,12 @@ class GFFFeature {
     private $score;
     
     /**
+     *
+     * @var float $phase 
+     */
+    private $phase;
+    
+    /**
      * @var Doctrine\Common\Collections\Collection $aliases
      */
     protected $aliases;
@@ -120,12 +126,17 @@ class GFFFeature {
      */
     public function __construct($feature) {
         
-        $this->attributes = new ArrayCollection();
+        $this->aliases = new ArrayCollection();
         $this->locations = new ArrayCollection();
+        $this->attributes = new ArrayCollection();
+        $this->parents = new ArrayCollection();
+        $this->origins = new ArrayCollection();
+        
         
         if ($feature instanceof AbstractFeature) {
             
         } elseif ((is_array($feature))&&(count($feature) == 9)) {
+            
             list($this->seqID,
                  $this->source,
                  $this->type,
@@ -133,11 +144,13 @@ class GFFFeature {
                  $end,
                  $this->score,
                  $strand,
-                 $phase,
+                 $this->phase,
                  $attrLine) = $feature;
             
+            $this->locations->add(new Location(trim($start),trim($end),trim($strand)));
+            
             foreach (explode(";",$attrLine) as $attrString) {
-                list($field,$values) = explode($attrString);
+                list($field,$values) = explode("=",$attrString);
                 switch(strtolower($field)) {
                     case 'id':
                         $this->id = trim($values);
@@ -174,9 +187,19 @@ class GFFFeature {
                 }
                 
             }
-            
-            $this->locations->add(new Location(trim($start),trim($end),trim($strand)));
         }
+    }
+    
+    public function getType() {
+        return $this->type;
+    }
+    
+    public function getName() {
+        return $this->name;
+    }
+    
+    public function getSource() {
+        return $this->source;
     }
     
     /**

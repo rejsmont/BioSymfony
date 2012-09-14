@@ -28,6 +28,12 @@ abstract class BioFormatFile {
      *
      * @var boolean $fileRead 
      */
+    protected $fileIndexed;
+    
+    /**
+     *
+     * @var boolean $fileRead 
+     */
     protected $fileRead;
     
     /**

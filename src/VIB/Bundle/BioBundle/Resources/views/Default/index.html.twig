@@ -1,14 +1,8 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
 <pre>
-{% if correct == true %}
-We have {{ sequences.count }} sequences!
-
-{% for sequence in sequences %}
->{{sequence.name}} | {{sequence.description}}
-{{ sequence.sequence }}
-
-{% endfor %}
-{% else %}
-File is not a valid FastA
-{% endif %}
-
+We have {{ sequenceNo }} sequences.
+We have {{ featureNo }} features.
 </pre>
+{% endblock body %}
