@@ -131,7 +131,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
     /**
      * Get the sequence at the specified key/index.
      * 
-     * @param string $key The index of the sequence to retrieve.
+     * @param mixed $key The index of the sequence to retrieve.
      * @return VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence The sequence or NULL,
      *          if no sequence exists for the given key.
      */
@@ -146,7 +146,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @return boolean 
      */
     public function add(AbstractSequence $sequence) {
-        return $this->sequenceFile->replaceSequenceAtIndex(null, $sequence);
+        return $this->sequenceFile->replaceSequence(null, $sequence);
     }
     
     /**
@@ -159,7 +159,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
         $index = $this->sequenceFile->getSequenceIndex();
         if (isset($index[$key])) {
             $removed = $this->sequenceFile->readSequence($key);
-            $this->sequenceFile->removeSequenceAtIndex($key);
+            $this->sequenceFile->deleteSequence($key);
             return $removed;
         }
         return null;
@@ -175,7 +175,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
         foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
             $read_sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($sequence == $read_sequence) {
-                $this->sequenceFile->removeSequenceAtIndex($indexEntry);
+                $this->sequenceFile->deleteSequence($indexEntry);
                 return true;
             }
         }
@@ -192,7 +192,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
      */
     public function set($key, AbstractSequence $sequence) {
-        return $this->sequenceFile->replaceSequenceAtIndex($key, $sequence);
+        return $this->sequenceFile->replaceSequence($key, $sequence);
     }
 
     /**
@@ -223,7 +223,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      */
     public function clear() {
         foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
-            $this->sequenceFile->removeSequenceAtIndex($indexEntry);
+            $this->sequenceFile->deleteSequence($indexEntry);
         }
     }
     
@@ -320,7 +320,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
             if (! $p($indexEntry, $sequence)) {
                 return false;
             }
-            $this->sequenceFile->replaceSequenceAtIndex($indexEntry, $sequence);
+            $this->sequenceFile->replaceSequence($indexEntry, $sequence);
         }
         return true;
     }

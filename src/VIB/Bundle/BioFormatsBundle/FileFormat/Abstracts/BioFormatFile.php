@@ -26,7 +26,13 @@ abstract class BioFormatFile {
     
     /**
      *
-     * @var boolean $fileRead 
+     * @var SplTempFileObject $file 
+     */
+    protected $tmpfile;
+    
+    /**
+     *
+     * @var boolean $fileIndexed 
      */
     protected $fileIndexed;
     
@@ -38,9 +44,9 @@ abstract class BioFormatFile {
     
     /**
      *
-     * @var boolean $fileWritten 
+     * @var boolean $fileSaved 
      */
-    protected $fileWritten;
+    protected $fileSaved;
     
     /**
      *
@@ -59,6 +65,7 @@ abstract class BioFormatFile {
         $this->fileWritten = false;
         $this->fileValid = null;
         $this->file = $file;
+        $this->tmpfile = null;
     }
     
     /**
@@ -69,7 +76,20 @@ abstract class BioFormatFile {
     public function getFile() {
         return $this->file;
     }
-
+    
+    /**
+     * Get working copy of the file
+     * 
+     * @return SplFileObject
+     */
+    protected function getWorkingFile() {
+        if ($this->tmpfile !== null) {
+            return $this->tmpfile;
+        } else {
+            return $this->file;
+        }
+    }
+    
     /**
      * Set file
      * 
@@ -80,9 +100,9 @@ abstract class BioFormatFile {
     }
     
     /**
-     * Is the file valid FastA
+     * Is the file valid 
      * 
-     * @return boolean
+     * @return boolean TRUE if the file is valid, FALSE otherwise
      */
     public function isValid() {
         if (!$this->fileRead) {
@@ -92,18 +112,11 @@ abstract class BioFormatFile {
     }
     
     /**
-     * Read bioformat file
+     * Save the file
      * 
-     * @return integer|boolean Number of entries read or false on error
+     * @return integer|boolean Number of entries written or FALSE on error
      */
-    abstract public function readFile();
-    
-    /**
-     * Write bioformat file file
-     * 
-     * @return integer|boolean Number of entries written or false on error
-     */
-    abstract public function writeFile();
+    abstract public function save();
     
 }
 

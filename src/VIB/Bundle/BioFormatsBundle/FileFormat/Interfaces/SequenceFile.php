@@ -54,14 +54,14 @@ interface SequenceFile {
      * @param string $index 
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
      */
-    public function replaceSequenceAtIndex($indexEntry, AbstractSequence $sequence);
+    public function replaceSequence($indexEntry, AbstractSequence $sequence);
     
     /**
      * Remove sequence with the specified index
      * 
      * @param string $index 
      */
-    public function removeSequenceAtIndex($indexEntry);
+    public function deleteSequence($indexEntry);
     
     /**
      * Read single sequence from file

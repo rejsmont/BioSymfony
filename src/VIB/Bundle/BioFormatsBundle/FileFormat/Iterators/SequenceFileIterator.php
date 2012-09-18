@@ -63,7 +63,7 @@ class SequenceFileIterator extends Abstracts\IndexedFileIterator {
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $value
      */
     public function offsetSet($offset, $value) {
-        return $this->sequenceFile->replaceSequenceAtIndex($offset, $value);
+        return $this->sequenceFile->replaceSequence($offset, $value);
     }
 
     /**
@@ -72,7 +72,7 @@ class SequenceFileIterator extends Abstracts\IndexedFileIterator {
      * @param mixed $offset
      */
     public function offsetUnset($offset) {
-        return $this->sequenceFile->removeSequenceAtIndex($offset);
+        return $this->sequenceFile->deleteSequence($offset);
     }
 }
 

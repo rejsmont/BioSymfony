@@ -41,7 +41,7 @@ class GFFFile extends FastAFile implements Interfaces\AnnotationsFile {
      * @return boolean
      */
     public function indexFile() {
-        $file = $this->getFile();
+        $file = $this->getWorkingFile();
         if ($file == null) {
             $this->fileValid = false;
             return false;
@@ -63,7 +63,7 @@ class GFFFile extends FastAFile implements Interfaces\AnnotationsFile {
      * {@inheritDoc}
      */
     public function readFile() {
-        $file = $this->getFile();
+        $file = $this->getWorkingFile();
         if ($file == null) {
             $this->fileValid = false;
             return false;
@@ -95,7 +95,7 @@ class GFFFile extends FastAFile implements Interfaces\AnnotationsFile {
      * {@inheritDoc}
      */
     public function writeFile() {
-        $file = $this->getFile();
+        $file = $this->getWorkingFile();
         if (($file == null)||($this->sequences->count() == 0)||(!$file->isWritable())) {
             return false;
         }
