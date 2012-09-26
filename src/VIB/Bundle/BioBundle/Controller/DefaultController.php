@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use VIB\Bundle\BioFormatsBundle\FileFormat\GFFFile;
+use VIB\Bundle\BioFormatsBundle\FileFormat\FastAFile;
 
 class DefaultController extends Controller
 {
@@ -26,24 +26,18 @@ class DefaultController extends Controller
      */
     public function indexAction($name = "guest")
     {
-        $GFF = new GFFFile(new \SplFileObject("/tmp/dmel-all-r5.46.gff"));
-        $GFF->indexFile();
+        $fasta_in = new FastAFile(new \SplFileObject("/tmp/test.fasta"));
+        //$fasta_out = new FastAFile(new \SplFileObject("/tmp/test-output.fasta","w+"));
         
-        $sequenceNo = count($GFF->sequenceIndex);
-        $featureNo = 0;
-        foreach ($GFF->featureIndex as $sequenceFeatures) {
-            $featureNo += count($sequenceFeatures);
-        }        
-        return array('sequenceNo' => $sequenceNo,'featureNo' => $featureNo);
-
-        //if ($fastA->isValid()) {
-        //    $sequences = $fastA->getSequences();
-        //    $fastA = new FastAFile(new \SplFileObject("/tmp/example_output.fas","w"),$sequences);
-        //    $fastA->writeFile();
-        //    return array('sequences' => $sequences, 'correct' => true);
-        //} else {
-        //    return array('correct' => false);
-        //}
+        echo "<pre>";
         
+        foreach ($fasta_in->getSequences() as $sequence) {
+            echo "Processing " . $sequence->getName() . "\n";
+            //$fasta_out->addSequence($sequence);
+        }
+        
+        echo "</pre>";
+        
+        //$fasta_out->save();
     }
 }

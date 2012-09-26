@@ -11,8 +11,8 @@
 
 namespace VIB\Bundle\BioFormatsBundle\FileFormat\Collections;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
+use \Doctrine\Common\Collections\Collection;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 use VIB\Bundle\BioFormatsBundle\FileFormat\Interfaces\SequenceFile;
 use VIB\Bundle\BioFormatsBundle\FileFormat\Iterators\SequenceFileIterator;
@@ -22,7 +22,7 @@ use VIB\Bundle\BioFormatsBundle\FileFormat\Iterators\SequenceFileIterator;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
+class SequenceFileCollection implements \Doctrine\Common\Collections\Collection {
     
     /**
      *
@@ -145,7 +145,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
      * @return boolean 
      */
-    public function add(AbstractSequence $sequence) {
+    public function add($sequence) {
         return $this->sequenceFile->appendSequence(null, $sequence);
     }
     
@@ -171,7 +171,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence The sequence to remove.
      * @return boolean TRUE if this collection contained the specified sequence, FALSE otherwise.
      */
-    public function removeElement(AbstractSequence $sequence) {
+    public function removeElement($sequence) {
         foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
             $read_sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($sequence == $read_sequence) {
@@ -191,7 +191,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @param mixed $key
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
      */
-    public function set($key, AbstractSequence $sequence) {
+    public function set($key, $sequence) {
         return $this->sequenceFile->replaceSequence($key, $sequence);
     }
 
@@ -235,7 +235,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @return boolean TRUE if the given element is contained in the collection,
      *          FALSE otherwise.
      */
-    public function contains(AbstractSequence $sequence) {
+    public function contains($sequence) {
         foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
             $read_sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($sequence == $read_sequence) {
@@ -263,7 +263,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence The sequence to search for.
      * @return mixed The key/index of the sequence or FALSE if the sequence was not found.
      */
-    public function indexOf(AbstractSequence $sequence) {
+    public function indexOf($sequence) {
         foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
             $read_sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($sequence == $read_sequence) {
