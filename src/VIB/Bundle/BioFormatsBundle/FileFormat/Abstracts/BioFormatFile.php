@@ -38,15 +38,9 @@ abstract class BioFormatFile {
     
     /**
      *
-     * @var boolean $fileRead 
+     * @var boolean $fileModified 
      */
-    protected $fileRead;
-    
-    /**
-     *
-     * @var boolean $fileSaved 
-     */
-    protected $fileSaved;
+    protected $fileModified;
     
     /**
      *
@@ -61,8 +55,8 @@ abstract class BioFormatFile {
      * @param VIB\Bundle\BioFormatsBundle\FileFormat\SplFileObject $file 
      */
     public function __construct(\SplFileObject $file = null) {
-        $this->fileRead = false;
-        $this->fileWritten = false;
+        $this->fileIndexed = false;
+        $this->fileModified = false;
         $this->fileValid = null;
         $this->file = $file;
         $this->tmpfile = null;
@@ -91,6 +85,22 @@ abstract class BioFormatFile {
     }
     
     /**
+     * Get writable copy of the file
+     * 
+     * @return SplFileObject
+     */
+    protected function getWritableFile() {
+        if ($this->tmpfile === null) {
+            $this->tmpfile = new \SplTempFileObject(131072);
+            $this->file->rewind();
+            foreach($this->file as $line) {
+                $this->tmpfile->fwrite($line);
+            }
+        }
+        return $this->tmpfile;
+    }
+    
+    /**
      * Set file
      * 
      * @param SplFileObject $file 
@@ -105,8 +115,8 @@ abstract class BioFormatFile {
      * @return boolean TRUE if the file is valid, FALSE otherwise
      */
     public function isValid() {
-        if (!$this->fileRead) {
-            $this->readFile();
+        if (!$this->fileIndexed) {
+            $this->indexFile();
         }
         return $this->fileValid;
     }
@@ -114,7 +124,7 @@ abstract class BioFormatFile {
     /**
      * Save the file
      * 
-     * @return integer|boolean Number of entries written or FALSE on error
+     * @return integer|boolean Number of entries written, TRUE if file was not modified or FALSE on error
      */
     abstract public function save();
     

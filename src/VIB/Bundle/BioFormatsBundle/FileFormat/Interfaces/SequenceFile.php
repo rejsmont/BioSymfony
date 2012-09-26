@@ -21,13 +21,6 @@ use VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence as AbstractSequence;
 interface SequenceFile {
     
     /**
-     * Get sequence index
-     * 
-     * @return array
-     */
-    public function getSequenceIndex();
-    
-    /**
      * Get sequences
      * 
      * @return Doctrine\Common\Collections\Collection
@@ -49,19 +42,11 @@ interface SequenceFile {
     public function removeSequence(AbstractSequence $sequence);
     
     /**
-     * Replace sequence with the specified index using provided sequence
+     * Get sequence index
      * 
-     * @param string $index 
-     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
+     * @return array
      */
-    public function replaceSequence($indexEntry, AbstractSequence $sequence);
-    
-    /**
-     * Remove sequence with the specified index
-     * 
-     * @param string $index 
-     */
-    public function deleteSequence($indexEntry);
+    public function getSequenceIndex();
     
     /**
      * Read single sequence from file
@@ -70,6 +55,31 @@ interface SequenceFile {
      * @return VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence|boolean The sequence read or false on error
      */
     public function readSequence($indexEntry = false);
+    
+    /**
+     * Append the new sequence to the file
+     * 
+     * @param \VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
+     * @return mixed|boolean Index of the written sequence or FALSE on error
+     */
+    public function appendSequence(AbstractSequence $sequence);
+    
+    /**
+     * Replace the sequence indicated by indexEntry in the file with the new sequence
+     * If the indexEntry is null, append the new sequence to the file
+     * 
+     * @param mixed $indexEntry
+     * @param \VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
+     * @return mixed|boolean Index of the written sequence or FALSE on error
+     */
+    public function replaceSequence($indexEntry, AbstractSequence $sequence);
+    
+    /**
+     * Remove the sequence indicated by indexEntry from the file
+     * 
+     * @param mixed $indexEntry
+     */
+    public function deleteSequence($indexEntry);
 }
 
 ?>

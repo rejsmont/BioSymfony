@@ -146,7 +146,7 @@ class SequenceFileCollection implements Doctrine\Common\Collections\Collection {
      * @return boolean 
      */
     public function add(AbstractSequence $sequence) {
-        return $this->sequenceFile->replaceSequence(null, $sequence);
+        return $this->sequenceFile->appendSequence(null, $sequence);
     }
     
     /**
