@@ -11,7 +11,7 @@
 
 namespace VIB\Bundle\BioFormatsBundle\FileFormat\Iterators;
 
-use VIB\Bundle\BioFormatsBundle\FileFormat\Iterfaces\SequenceFile;
+use VIB\Bundle\BioFormatsBundle\FileFormat\Interfaces\SequenceFile;
 
 /**
  * VIB\Bundle\BioFormatsBundle\FileFormat\Iterators\SequenceFileIterator

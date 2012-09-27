@@ -76,7 +76,7 @@ abstract class BioFormatFile {
      * 
      * @return SplFileObject
      */
-    protected function getWorkingFile() {
+    public function getWorkingFile() {
         if ($this->tmpfile !== null) {
             return $this->tmpfile;
         } else {

@@ -26,18 +26,18 @@ class DefaultController extends Controller
      */
     public function indexAction($name = "guest")
     {
-        $fasta_in = new FastAFile(new \SplFileObject("/tmp/test.fasta"));
-        //$fasta_out = new FastAFile(new \SplFileObject("/tmp/test-output.fasta","w+"));
+        $fasta_in = new FastAFile(new \SplFileObject("/tmp/dmel-all-chromosome-r5.47.fasta"));
+        $fasta_out = new FastAFile(new \SplFileObject("/tmp/test-output.fasta"));
         
-        echo "<pre>";
-        
-        foreach ($fasta_in->getSequences() as $sequence) {
-            echo "Processing " . $sequence->getName() . "\n";
-            //$fasta_out->addSequence($sequence);
+        foreach ($fasta_out->getSequences() as $sequence) {
+            $fasta_out->removeSequence($sequence);
         }
         
-        echo "</pre>";
+        foreach ($fasta_in->getSequences() as $sequence) {
+            $fasta_out->addSequence($sequence);
+        }
+        $fasta_out->save();
         
-        //$fasta_out->save();
+        return array();
     }
 }

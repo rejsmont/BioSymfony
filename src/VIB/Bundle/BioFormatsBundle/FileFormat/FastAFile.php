@@ -78,6 +78,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      * @return boolean TRUE on success, FALSE on error
      */
     protected function indexFile() {
+        $this->file = $this->file->openFile("r");
         if ($this->fileIndexed === true) {
             return true;
         }
@@ -87,10 +88,11 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             return false;
         }
         while (!$file->eof()) {
+            $position = $file->ftell();
             $line = trim($file->current());
             if (strlen($line) > 0) {
                 if ($line[0] == ">") {
-                    $this->indexSequence($line,$file->key());
+                    $this->indexSequence($line,$position);
                 }
             }
             $file->next();
@@ -110,22 +112,19 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         }
         $this->file = $this->file->openFile("w");
         $sequencesWritten = 0;
-        
-        foreach ($this->sequences as $sequence) {
-            if ($this->writeSequence($sequence)) {
+        foreach ($this->sequences as $key => $sequence) {
+            if ($this->writeSequence($sequence, true) !== null) {
                 $sequencesWritten++;
             } else {
                 return false;
             }
         }
-        
         $this->fileModified = false;
         $this->fileIndexed = false;
         $this->fileValid = null;
         $this->tmpfile = null;
         $this->sequenceIndex = array();
         $this->indexFile();
-        
         return $sequencesWritten;
     }
     
@@ -151,7 +150,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         if (! isset($this->sequenceIndex[$indexEntry])) {
             return null;
         }
-        $file->seek($this->sequenceIndex[$indexEntry]);
+        $file->fseek($this->sequenceIndex[$indexEntry]);
         while (!$file->eof()) {
             $line = trim($file->current());
             if (strlen($line) > 0) {
@@ -183,7 +182,6 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             }
             $file->next();
         }
-        
         if ((strlen($sequenceText) > 0)&&(!$newSequence)) {
             $sequence->setSequence($sequenceText);
             return $sequence;
@@ -214,15 +212,15 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             }
             if (array_key_exists($indexEntry, $this->sequenceIndex)) {
                 $suffix = 1;
-                while (! array_key_exists($indexEntry . "_" . $suffix, $this->sequenceIndex)) {
-                    $suffix += 1;
+                while (array_key_exists($indexEntry . "_" . $suffix, $this->sequenceIndex)) {
+                    $suffix++;
                 }
                 $indexEntry = $indexEntry . "_" . $suffix;
             }
         }
-        $lineNumber = writeSequence($sequence);
-        if ($lineNumber !== false) {
-            $this->sequenceIndex[$indexEntry] = $lineNumber;
+        $position = $this->writeSequence($sequence);
+        if ($position !== false) {
+            $this->sequenceIndex[$indexEntry] = $position;
             $this->fileModified = true;
             return $indexEntry;
         }
@@ -245,12 +243,19 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      * @param integer $lineNumber 
      * @return boolean 
      */
-    private function indexSequence($line,$lineNumber) {
+    private function indexSequence($line,$position) {
         $match = array();
         if (preg_match("/^>(\S+)(.*)$/",$line,$match) === 1) {
             $indexEntry = trim($match[1]);
             if (strlen($indexEntry) > 0) {
-                $this->sequenceIndex[$indexEntry] = $lineNumber;
+                if (array_key_exists($indexEntry, $this->sequenceIndex)) {
+                    $suffix = 1;
+                    while (array_key_exists($indexEntry . "_" . $suffix, $this->sequenceIndex)) {
+                        $suffix++;
+                    }
+                    $indexEntry = $indexEntry . "_" . $suffix;
+                }
+                $this->sequenceIndex[$indexEntry] = $position;
             } else {
                 $this->fileValid = false;
                 return false;
@@ -263,13 +268,13 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      * Write single sequence to FastA file
      * 
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
-     * @return integer|boolean Number of first line of the sequence or FALSE on error
+     * @return integer|boolean Position of the sequence in the file or FALSE on error
      */
-    protected function writeSequence(AbstractSequence $sequence) {
-        $file = $this->getWorkingFile();
-        $lineNumber = false;
-        if (($file != null)&&($sequence != null)&&($file->isWritable())&&(strlen($sequence->getSequence()) > 0)) {
-            $lineNumber = $file->key();
+    protected function writeSequence(AbstractSequence $sequence, $saveMode = false) {
+        $file = ($saveMode ? $this->getFile() : $this->getWorkingFile());
+        $position = false;
+        if (($file != null)&&($sequence != null)&&(strlen($sequence->getSequence()) > 0)) {
+            $position = $file->ftell();
             $file->fwrite(">");
             if (strlen($sequence->getName()) > 0) {
                 $file->fwrite($sequence->getName());
@@ -281,7 +286,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             $file->fwrite(wordwrap($sequence->getSequence(),75,"\n",true));
             $file->fwrite("\n");
         }
-        return $lineNumber;
+        return $position;
     }
 
     /**

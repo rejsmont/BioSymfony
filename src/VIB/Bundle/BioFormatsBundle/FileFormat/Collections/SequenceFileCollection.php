@@ -53,7 +53,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      */
     public function toArray() {
         $sequences = array();
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $sequences[$indexEntry] = $this->sequenceFile->readSequence($indexEntry);
         }
         return $sequences;
@@ -146,7 +146,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * @return boolean 
      */
     public function add($sequence) {
-        return $this->sequenceFile->appendSequence(null, $sequence);
+        return $this->sequenceFile->appendSequence($sequence);
     }
     
     /**
@@ -172,7 +172,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * @return boolean TRUE if this collection contained the specified sequence, FALSE otherwise.
      */
     public function removeElement($sequence) {
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $read_sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($sequence == $read_sequence) {
                 $this->sequenceFile->deleteSequence($indexEntry);
@@ -211,7 +211,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      */
     public function getValues() {
         $sequences = array();
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $sequences[] = $this->sequenceFile->readSequence($indexEntry);
         }
         return $sequences;
@@ -222,7 +222,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * 
      */
     public function clear() {
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $this->sequenceFile->deleteSequence($indexEntry);
         }
     }
@@ -236,7 +236,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      *          FALSE otherwise.
      */
     public function contains($sequence) {
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $read_sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($sequence == $read_sequence) {
                 return true;
@@ -264,7 +264,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * @return mixed The key/index of the sequence or FALSE if the sequence was not found.
      */
     public function indexOf($sequence) {
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $read_sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($sequence == $read_sequence) {
                 return $indexEntry;
@@ -280,7 +280,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * @return boolean TRUE if the predicate is TRUE for at least one sequence, FALSE otherwise.
      */
     public function exists(Closure $p) {
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($p($indexEntry, $sequence)) {
                 return true;
@@ -298,7 +298,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      */
     public function filter(Closure $p) {
         $sequences = new ArrayCollection();
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($p($sequence)) {
                 $sequences->add($sequence);
@@ -315,7 +315,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * @return boolean TRUE, if the predicate yields TRUE for all sequences, FALSE otherwise.
      */
     public function forAll(Closure $p) {
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $sequence = $this->sequenceFile->readSequence($indexEntry);
             if (! $p($indexEntry, $sequence)) {
                 return false;
@@ -334,7 +334,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      */
     public function map(Closure $func) {
         $sequences = new ArrayCollection();
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $sequence = $this->sequenceFile->readSequence($indexEntry);
             $sequences->set($indexEntry,$func($sequence));
         }
@@ -353,7 +353,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
     public function partition(Closure $p) {
         $coll_1 = new ArrayCollection();
         $coll_2 = new ArrayCollection();
-        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry) {
+        foreach ($this->sequenceFile->getSequenceIndex() as $indexEntry => $value) {
             $sequence = $this->sequenceFile->readSequence($indexEntry);
             if ($p($indexEntry, $sequence)) {
                 $coll_1->set($indexEntry,$sequence);
@@ -378,7 +378,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
     public function slice($offset, $length = null) {
         $sequences = array();
         $index = array_slice($this->sequenceFile->getSequenceIndex(), $offset, $length, true);
-        foreach ($index as $indexEntry) {
+        foreach ($index as $indexEntry => $value) {
             $sequences[$indexEntry] = $this->sequenceFile->readSequence($indexEntry);
         }
         return $sequences;
