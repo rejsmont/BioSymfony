@@ -272,7 +272,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         if (($sequence == null)||(strlen($sequence->getSequence()) == 0)) {
             throw new FileFormatException("Sequence is empty.");
         }
-        if (strlen($sequence->getName()) > 0) {
+        if (strlen($sequence->getName()) == 0) {
             throw new FileFormatException("Sequence name is empty.");
         }
         $position = $file->ftell();
