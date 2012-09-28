@@ -269,7 +269,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         if ($file == null) {
             throw new IOException("Cannot open file for writing.");
         }
-        if (($sequence != null)||(strlen($sequence->getSequence()) > 0)) {
+        if (($sequence != null)||(strlen($sequence->getSequence()) == 0)) {
             throw new FileFormatException("Sequence is empty.");
         }
         if (strlen($sequence->getName()) > 0) {
