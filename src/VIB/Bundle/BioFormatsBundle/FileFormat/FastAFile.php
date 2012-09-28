@@ -80,13 +80,13 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      * {@inheritDoc}
      */
     public function updateSequence(AbstractSequence $sequence) {
-        //$this->sequences->removeElement($sequence);
+        $this->sequences->set($sequence->getName(), $sequence);
     }
     
     /**
      * Index sequences in the file
      * 
-     * @return boolean TRUE on success, FALSE on error
+     * @return boolean TRUE on success
      */
     protected function indexFile() {
         $this->file = $this->file->openFile("r");
