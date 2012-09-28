@@ -122,7 +122,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         }
         $this->file = $this->file->openFile("w");
         $sequencesWritten = 0;
-        foreach ($this->sequences as $key => $sequence) {
+        foreach ($this->sequences as $sequence) {
             $this->writeSequence($sequence, true);
             $sequencesWritten++;
         }
