@@ -244,7 +244,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
     private function indexSequence($line,$position) {
         $match = array();
         if (preg_match("/^>(\S+)(.*)$/",$line,$match) === 1) {
-            $indexEntry = trim($match[1]);
+            $indexEntry = rawurldecode(trim($match[1]));
             if (strlen($indexEntry) > 0) {
                 if (array_key_exists($indexEntry, $this->sequenceIndex)) {
                     throw new FileFormatException("Sequence name is not unique.");
@@ -277,7 +277,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         }
         $position = $file->ftell();
         $file->fwrite(">");
-            $file->fwrite($sequence->getName());
+            $file->fwrite(rawurlencode($sequence->getName()));
         if (strlen($sequence->getDescription()) > 0) {
             $file->fwrite(' ' . $sequence->getDescription());
         }
@@ -296,7 +296,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
     protected function parseFastAHeader($line, AbstractSequence $sequence) {
         $match = array();
         if (preg_match("/^>(\S+)(.*)$/",$line,$match) === 1) {
-            $name = trim($match[1]);
+            $name = rawurldecode(trim($match[1]));
             if (strlen($name) > 0) {
                 $sequence->setName($name);
             } else {
