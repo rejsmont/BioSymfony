@@ -23,6 +23,7 @@ interface SequenceFile {
     /**
      * Get sequences
      * 
+     * @api
      * @return Doctrine\Common\Collections\Collection
      */
     public function getSequences();
@@ -30,6 +31,7 @@ interface SequenceFile {
     /**
      * Add sequence
      * 
+     * @api
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
      */
     public function addSequence(AbstractSequence $sequence);
@@ -37,12 +39,22 @@ interface SequenceFile {
     /**
      * Remove sequence
      * 
+     * @api
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
      */
     public function removeSequence(AbstractSequence $sequence);
     
     /**
-     * Get sequence index
+     * Update sequence
+     * 
+     * @api
+     * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
+     */
+    public function updateSequence(AbstractSequence $sequence);
+    
+    /**
+     * Get index of sequences
+     * This method should only be used internally by Collections and Iterators
      * 
      * @return array
      */
@@ -50,6 +62,7 @@ interface SequenceFile {
     
     /**
      * Read single sequence from file
+     * This method should only be used internally by Collections and Iterators
      * 
      * @param integer $indexEntry
      * @return VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence|boolean The sequence read or false on error
@@ -57,25 +70,19 @@ interface SequenceFile {
     public function readSequence($indexEntry = false);
     
     /**
-     * Append the new sequence to the file
-     * 
-     * @param \VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
-     * @return mixed|boolean Index of the written sequence or FALSE on error
-     */
-    public function appendSequence(AbstractSequence $sequence);
-    
-    /**
      * Replace the sequence indicated by indexEntry in the file with the new sequence
      * If the indexEntry is null, append the new sequence to the file
+     * This method should only be used internally by Collections and Iterators
      * 
      * @param mixed $indexEntry
      * @param \VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
      * @return mixed|boolean Index of the written sequence or FALSE on error
      */
-    public function replaceSequence($indexEntry, AbstractSequence $sequence);
+    public function putSequence($indexEntry, AbstractSequence $sequence);
     
     /**
      * Remove the sequence indicated by indexEntry from the file
+     * This method should only be used internally by Collections and Iterators
      * 
      * @param mixed $indexEntry
      */

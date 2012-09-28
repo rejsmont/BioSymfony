@@ -76,7 +76,7 @@ abstract class BioFormatFile {
      * 
      * @return SplFileObject
      */
-    public function getWorkingFile() {
+    protected function getWorkingFile() {
         if ($this->tmpfile !== null) {
             return $this->tmpfile;
         } else {
@@ -110,8 +110,9 @@ abstract class BioFormatFile {
     }
     
     /**
-     * Is the file valid 
+     * Is the file valid
      * 
+     * @api
      * @return boolean TRUE if the file is valid, FALSE otherwise
      */
     public function isValid() {
@@ -124,6 +125,7 @@ abstract class BioFormatFile {
     /**
      * Save the file
      * 
+     * @api
      * @return integer|boolean Number of entries written, TRUE if file was not modified or FALSE on error
      */
     abstract public function save();

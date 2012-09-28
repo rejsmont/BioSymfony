@@ -13,10 +13,14 @@ namespace VIB\Bundle\BioFormatsBundle\FileFormat;
 
 use Doctrine\Common\Collections\Collection;
 
+use Symfony\Component\Filesystem\Exception\IOException;
+
 use VIB\Bundle\BioBundle\Entity\DNA\Sequence;
 use VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence as AbstractSequence;
 
 use VIB\Bundle\BioFormatsBundle\FileFormat\Collections\SequenceFileCollection;
+use VIB\Bundle\BioFormatsBundle\Exceptions\FileFormatException;
+use VIB\Bundle\BioFormatsBundle\Exceptions\InvalidIndexException;
 
 /**
  * VIB\Bundle\BioFormatsBundle\FileFormat\FastAFile
@@ -73,6 +77,13 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
     }
     
     /**
+     * {@inheritDoc}
+     */
+    public function updateSequence(AbstractSequence $sequence) {
+        //$this->sequences->removeElement($sequence);
+    }
+    
+    /**
      * Index sequences in the file
      * 
      * @return boolean TRUE on success, FALSE on error
@@ -84,8 +95,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
         }
         $file = $this->getWorkingFile();
         if ($file == null) {
-            $this->fileValid = false;
-            return false;
+            throw new IOException("Cannot open file for reading.");
         }
         while (!$file->eof()) {
             $position = $file->ftell();
@@ -104,20 +114,17 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      * {@inheritDoc}
      */
     public function save() {
-        if (!$this->fileModified) {
+        if (! $this->fileModified) {
             return true;
         }
         if ($this->tmpfile == null) {
-            return false;
+            throw new IOException("Cannot open temporary file for reading.");
         }
         $this->file = $this->file->openFile("w");
         $sequencesWritten = 0;
         foreach ($this->sequences as $key => $sequence) {
-            if ($this->writeSequence($sequence, true) !== null) {
-                $sequencesWritten++;
-            } else {
-                return false;
-            }
+            $this->writeSequence($sequence, true);
+            $sequencesWritten++;
         }
         $this->fileModified = false;
         $this->fileIndexed = false;
@@ -141,8 +148,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
     public function readSequence($indexEntry = false) {
         $file = $this->getWorkingFile();
         if ($file == null) {
-            $this->fileValid = false;
-            return null;
+            throw new IOException("Cannot open file for reading.");
         }
         $newSequence = true;
         $sequence = new Sequence();
@@ -157,7 +163,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
                 if ($line[0] == ">") {
                     if ($file->eof()) {
                         $this->fileValid = false;
-                        return null;
+                        throw new FileFormatException("Sequence is empty.");
                     }
                     if ($newSequence) {
                         $this->parseFastAHeader($line, $sequence);
@@ -174,6 +180,7 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
                          break;
                      } else {
                          $this->fileValid = false;
+                         throw new FileFormatException("Unsupported characters in the sequence.");
                          return null;
                      }
                 }
@@ -186,54 +193,46 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             $sequence->setSequence($sequenceText);
             return $sequence;
         } else {
-            return null;
+            $this->fileValid = false;
+            throw new FileFormatException("Sequence is empty.");
         }
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function appendSequence(AbstractSequence $sequence) {
-        return $this->replaceSequence(null, $sequence);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function replaceSequence($indexEntry, AbstractSequence $sequence) {
+    public function putSequence($indexEntry, AbstractSequence $sequence) {
         $file = $this->getWritableFile();
+        if ($file == null) {
+            throw new IOException("Cannot open file for writing.");
+        }
         if ($file->fseek(0,SEEK_END) != 0) {
-            return false;
+            throw new IOException("Cannot write to the file.");
         }
         if ($indexEntry == null) {
             $indexEntry = $sequence->getName();
             if (strlen($indexEntry) == 0) {
-                return false;
+                throw new InvalidIndexException("Sequence name is empty.");
             }
             if (array_key_exists($indexEntry, $this->sequenceIndex)) {
-                $suffix = 1;
-                while (array_key_exists($indexEntry . "_" . $suffix, $this->sequenceIndex)) {
-                    $suffix++;
-                }
-                $indexEntry = $indexEntry . "_" . $suffix;
+                throw new InvalidIndexException("Sequence name is not unique.");
             }
         }
         $position = $this->writeSequence($sequence);
-        if ($position !== false) {
-            $this->sequenceIndex[$indexEntry] = $position;
-            $this->fileModified = true;
-            return $indexEntry;
-        }
-        return false;
+        $this->sequenceIndex[$indexEntry] = $position;
+        $this->fileModified = true;
+        return $indexEntry;
     }
     
     /**
      * {@inheritDoc}
      */
     public function deleteSequence($indexEntry) {
-        $this->getWritableFile();
-        unset($this->sequenceIndex[$indexEntry]);
-        $this->fileModified = true;
+        if (isset($this->sequenceIndex[$indexEntry])) {
+            $this->getWritableFile();
+            unset($this->sequenceIndex[$indexEntry]);
+            $this->fileModified = true;
+        }
     }
 
     /**
@@ -241,7 +240,6 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
      * 
      * @param string $line 
      * @param integer $lineNumber 
-     * @return boolean 
      */
     private function indexSequence($line,$position) {
         $match = array();
@@ -249,43 +247,43 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             $indexEntry = trim($match[1]);
             if (strlen($indexEntry) > 0) {
                 if (array_key_exists($indexEntry, $this->sequenceIndex)) {
-                    $suffix = 1;
-                    while (array_key_exists($indexEntry . "_" . $suffix, $this->sequenceIndex)) {
-                        $suffix++;
-                    }
-                    $indexEntry = $indexEntry . "_" . $suffix;
+                    throw new FileFormatException("Sequence name is not unique.");
                 }
                 $this->sequenceIndex[$indexEntry] = $position;
             } else {
-                $this->fileValid = false;
-                return false;
+                throw new FileFormatException("Sequence name is empty.");
             }
+        } else {
+            throw new FileFormatException("Invalid FastA header.");
         }
-        return true;
     }
     
     /**
      * Write single sequence to FastA file
      * 
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence 
-     * @return integer|boolean Position of the sequence in the file or FALSE on error
+     * @return integer Position of the sequence in the file
      */
     protected function writeSequence(AbstractSequence $sequence, $saveMode = false) {
         $file = ($saveMode ? $this->getFile() : $this->getWorkingFile());
-        $position = false;
-        if (($file != null)&&($sequence != null)&&(strlen($sequence->getSequence()) > 0)) {
-            $position = $file->ftell();
-            $file->fwrite(">");
-            if (strlen($sequence->getName()) > 0) {
-                $file->fwrite($sequence->getName());
-            }
-            if (strlen($sequence->getDescription()) > 0) {
-                $file->fwrite(' ' . $sequence->getDescription());
-            }
-            $file->fwrite("\n");
-            $file->fwrite(wordwrap($sequence->getSequence(),75,"\n",true));
-            $file->fwrite("\n");
+        if ($file == null) {
+            throw new IOException("Cannot open file for writing.");
         }
+        if (($sequence != null)||(strlen($sequence->getSequence()) > 0)) {
+            throw new FileFormatException("Sequence is empty.");
+        }
+        if (strlen($sequence->getName()) > 0) {
+            throw new FileFormatException("Sequence name is empty.");
+        }
+        $position = $file->ftell();
+        $file->fwrite(">");
+            $file->fwrite($sequence->getName());
+        if (strlen($sequence->getDescription()) > 0) {
+            $file->fwrite(' ' . $sequence->getDescription());
+        }
+        $file->fwrite("\n");
+        $file->fwrite(wordwrap($sequence->getSequence(),75,"\n",true));
+        $file->fwrite("\n");
         return $position;
     }
 
@@ -301,6 +299,8 @@ class FastAFile extends Abstracts\BioFormatFile implements Interfaces\SequenceFi
             $name = trim($match[1]);
             if (strlen($name) > 0) {
                 $sequence->setName($name);
+            } else {
+                throw new FileFormatException("Sequence name is empty.");
             }
             $description = trim($match[2]);
             if (strlen($description) > 0) {

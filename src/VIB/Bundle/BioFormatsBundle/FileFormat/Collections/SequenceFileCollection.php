@@ -146,7 +146,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * @return boolean 
      */
     public function add($sequence) {
-        return $this->sequenceFile->appendSequence($sequence);
+        return $this->sequenceFile->putSequence(null,$sequence);
     }
     
     /**
@@ -192,7 +192,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
      * @param VIB\Bundle\BioBundle\Entity\DNA\Abstracts\Sequence $sequence
      */
     public function set($key, $sequence) {
-        return $this->sequenceFile->replaceSequence($key, $sequence);
+        return $this->sequenceFile->putSequence($key, $sequence);
     }
 
     /**
@@ -320,7 +320,7 @@ class SequenceFileCollection implements \Doctrine\Common\Collections\Collection 
             if (! $p($indexEntry, $sequence)) {
                 return false;
             }
-            $this->sequenceFile->replaceSequence($indexEntry, $sequence);
+            $this->sequenceFile->putSequence($indexEntry, $sequence);
         }
         return true;
     }
